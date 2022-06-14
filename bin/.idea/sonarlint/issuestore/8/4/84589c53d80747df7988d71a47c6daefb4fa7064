@@ -1,0 +1,14 @@
+
+b
+java:S1192Z"GDefine a constant instead of duplicating this literal "driver" 4 times.(ı•’ôùÿÿÿÿ
+P	java:S125"<This block of commented-out lines of code should be removed.(ÀÙ‡!
+V	java:S125:"<This block of commented-out lines of code should be removed.(ïÈ‚©üÿÿÿÿ
+m
+java:S3776M"RRefactor this method to reduce its Cognitive Complexity from 23 to the 15 allowed.(ˆéí½üÿÿÿÿ
+V	java:S125j"<This block of commented-out lines of code should be removed.(¿›ü£üÿÿÿÿ
+W	java:S125‚"<This block of commented-out lines of code should be removed.(¿›ü£üÿÿÿÿ
+W	java:S125ˆ"<This block of commented-out lines of code should be removed.(¿›ü£üÿÿÿÿ
+C
+java:S1068"(Remove this unused "host" private field.(ïƒ¡•úÿÿÿÿ
+>
+java:S1068"(Remove this unused "port" private field.(ØìÔê
