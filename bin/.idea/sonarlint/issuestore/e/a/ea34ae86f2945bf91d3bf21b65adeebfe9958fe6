@@ -1,11 +1,0 @@
-
-m
-java:S4144"WUpdate this method so that its implementation is not identical to "logStep" on line 20.(şÇØÏ
-U
-java:S1118":Add a private constructor to hide the implicit public one.(ŸæÌıÿÿÿÿ
-S	java:S106"9Replace this use of System.out or System.err by a logger.(Ÿ ¼€ÿÿÿÿÿ
-Q	java:S125"<This block of commented-out lines of code should be removed.(·õÄä
-S	java:S106"9Replace this use of System.out or System.err by a logger.(Ÿ ¼€ÿÿÿÿÿ
-Q	java:S125"<This block of commented-out lines of code should be removed.(·õÄä
-<
-java:S1168<"&Return an empty array instead of null.(¥¹ï
