@@ -14,6 +14,7 @@
         <webdrivermanager.version>5.1.1</webdrivermanager.version>
         <testng.version>7.5</testng.version>
 
+        <rest-assured.version>4.5.1</rest-assured.version>
         <poi-ooxml.version>5.2.2</poi-ooxml.version>
 
         <commons-io.version>2.11.0</commons-io.version>
@@ -69,7 +70,13 @@
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
         </dependency>
-
+        <dependency>
+            <!-- REST ASSURED -->
+            <!--  https://mvnrepository.com/artifact/io.rest-assured/rest-assured        -->
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${rest-assured.version}</version>
+        </dependency>
         <dependency>
             <!-- EXCEL FILE  -->
             <!--  https://mvnrepository.com/artifact/org.apache.poi/poi       -->
@@ -158,67 +165,81 @@
             <version>1.18.22</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.assertthat</groupId>
+            <artifactId>selenium-shutterbug</artifactId>
+            <version>1.6</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.seleniumhq.selenium</groupId>
+                    <artifactId>selenium-java</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.github.bonigarcia</groupId>
+                    <artifactId>webdrivermanager</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+
     </dependencies>
 
 
+    <build>
 
-            <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>io.qameta.allure</groupId>
+                    <artifactId>allure-maven</artifactId>
+                    <version>${allure-maven.version}</version>
+                    <configuration>
+                        <reportVersion>${allure-maven-report.version}</reportVersion>
+                    </configuration>
+                </plugin>
 
-                <pluginManagement>
-                    <plugins>
-                        <plugin>
-                            <groupId>io.qameta.allure</groupId>
-                            <artifactId>allure-maven</artifactId>
-                            <version>${allure-maven.version}</version>
-                            <configuration>
-                                <reportVersion>${allure-maven-report.version}</reportVersion>
-                            </configuration>
-                        </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${maven-compiler-plugin.version}</version>
+                    <configuration>
+                        <source>17</source>
+                        <target>17</target>
+                        <encoding>UTF-8</encoding>
+                    </configuration>
+                </plugin>
 
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-compiler-plugin</artifactId>
-                            <version>${maven-compiler-plugin.version}</version>
-                            <configuration>
-                                <source>17</source>
-                                <target>17</target>
-                                <encoding>UTF-8</encoding>
-                            </configuration>
-                        </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${maven-surefire-plugin.version}</version>
 
-                        <plugin>
-                            <groupId>org.apache.maven.plugins</groupId>
-                            <artifactId>maven-surefire-plugin</artifactId>
-                            <version>${maven-surefire-plugin.version}</version>
+                    <configuration>
+                        <suiteXmlFiles>
+                            <!-- pass testng.xml files as argument from command line -->
+                            <suiteXmlFile>src/test/resources/TestSuites/testng.xml</suiteXmlFile>
+                            <suiteXmlFile>src/test/resources/TestSuites/default.xml</suiteXmlFile>
+                        </suiteXmlFiles>
 
-                            <configuration>
-                                <suiteXmlFiles>
-                                    <!-- pass testng.xml files as argument from command line -->
-                                    <suiteXmlFile>src/test/resources/TestSuites/testng.xml</suiteXmlFile>
-                                    <suiteXmlFile>src/test/resources/TestSuites/default.xml</suiteXmlFile>
-                                </suiteXmlFiles>
-
-                                <properties>
-                                    <property>
-                                        <name>usedefaultlisteners</name>
-                                        <value>false</value>
-                                    </property>
-                                    <property>
-                                        <name>listener</name>
-                                        <value>utilities.Listener</value>
-                                    </property>
-                                </properties>
-                            </configuration>
-                        </plugin>
-                    </plugins>
-                </pluginManagement>
-            </build>
-
-
-
-    <!--    <properties>
-
-        </properties>-->
+                        <properties>
+                            <property>
+                                <name>usedefaultlisteners</name>
+                                <value>false</value>
+                            </property>
+                            <property>
+                                <name>listener</name>
+                                <value>utilities.Listener</value>
+                            </property>
+                        </properties>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 
 </project>

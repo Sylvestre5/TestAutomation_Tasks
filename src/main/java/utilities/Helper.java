@@ -19,9 +19,16 @@ import static org.testng.Assert.fail;
 
 public class Helper {
     private static FileReader reader = null;
-    private static String propertiesRoot = "src/main/resources/";
+    private static final String  propertiesRoot = "src/main/resources/";
     private static Properties properties = new Properties();
 
+    /**
+     * Get Properties
+     *
+     * @param propertyFileName*
+     * @param propertyName*
+     * @return self reference
+     */
     public static String getProperty(String propertyFileName, String propertyName) {
         String propertiesPath = propertiesRoot + propertyFileName;
 
@@ -42,6 +49,7 @@ public class Helper {
     }
 
     private static final int TIMEOUT = Integer.parseInt(Helper.getProperty("project.properties", "webdriver.wait"));
+
     public static WebDriverWait getExplicitWait(WebDriver driver) {
         return new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
     }
@@ -50,13 +58,20 @@ public class Helper {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(TIMEOUT));
     }
 
-    // Handel the elements [wait + check + print + scroll ]
+    /**
+     * Handle the elements by wait, isVisible, Scroll, isDisplayed, print and catch
+     * exception
+     *
+     * @param driver*
+	 * @param elementLocator*
+     */
     protected static void locatingElementStrategy(WebDriver driver, By elementLocator) {
         try {
             // Wait for the element to be visible
             Helper.getExplicitWait(driver).until(ExpectedConditions.visibilityOfElementLocated(elementLocator));
             // Scroll the element into view to handle some browsers cases
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);", driver.findElement(elementLocator));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);",
+                    driver.findElement(elementLocator));
 
             if (!driver.findElement(elementLocator).isDisplayed()) {
                 Logger.logStep("The element [" + elementLocator.toString() + "] is not Displayed");
@@ -70,6 +85,7 @@ public class Helper {
             fail(e.getMessage());
         }
     }
+
     public static String getCurrentTime(String dateFormat) {
         String currentTime = "";
         try {
