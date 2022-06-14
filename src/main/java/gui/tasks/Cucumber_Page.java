@@ -2,15 +2,15 @@ package gui.tasks;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
-import utilities.BrowserActions;
+import utilities.browser.BrowserActions;
 
-public class CucumberPage {
+public class Cucumber_Page {
 
 	// driver
 	private static WebDriver driver;
 
 	// Constructor
-	public CucumberPage(WebDriver driver) {
+	public Cucumber_Page(WebDriver driver) {
 		this.driver = driver;
 	}
 

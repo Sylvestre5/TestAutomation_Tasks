@@ -1,10 +1,13 @@
-package utilities;
+package utilities.browser;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.Alert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utilities.actions.Helper;
+import utilities.Logger;
 
 import static org.testng.Assert.fail;
 
@@ -14,6 +17,7 @@ public class BrowserActions {
     public enum ConfirmAlertType {
         ACCEPT, DISMISS
     }
+
 
     @Step("Navigate to URL: [{url}]")
     public static void navigateToUrl(WebDriver driver, String url) {

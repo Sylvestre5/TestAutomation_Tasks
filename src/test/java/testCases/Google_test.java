@@ -1,17 +1,16 @@
 package testCases;
 
-import gui.tasks.CheckBoxPage;
-import gui.tasks.GooglePage;
+import gui.tasks.Google_Page;
 import gui.tasks.SearchResultsPage;
-import gui.tasks.W3schoolPage;
+import gui.tasks.W3school_Page;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
-import utilities.BrowserActions;
-import utilities.BrowserFactory;
+import utilities.browser.BrowserActions;
+import utilities.browser.BrowserFactory;
 
 import java.io.IOException;
 
@@ -37,9 +36,9 @@ public class Google_test {
     @Issue("Bug_002")
     public void task_001_CheckPageTitle() {
         String expectedResult_pageTitle = "Google";
-        new GooglePage(driver).navigateTo_HomePage();
-        GooglePage.getCurrentPage_Url();
-        Assert.assertTrue(GooglePage.getTitle_Page().contains(expectedResult_pageTitle));
+        new Google_Page(driver).navigateTo_HomePage();
+        Google_Page.getCurrentPage_Url();
+        Assert.assertTrue(Google_Page.getTitle_Page().contains(expectedResult_pageTitle));
 
 
     }
@@ -50,9 +49,9 @@ public class Google_test {
     @TmsLink("Tc_002")
     @Issue("Bug_002")
     public void task_002_CheckGoogleLogo_isDisplayed() throws IOException {
-        new GooglePage(driver).navigateTo_HomePage()
+        new Google_Page(driver).navigateTo_HomePage()
                 .isGoogleLogoDisplayed();
-        GooglePage.getScreenshot(driver,"tesSc");
+        Google_Page.getScreenshot(driver,"tesSc");
 
 //        Assert.assertTrue(GooglePage.isGoogleLogoDisplayed());
     }
@@ -64,7 +63,7 @@ public class Google_test {
     @Issue("Bug")
     public void task_search_getResultByText() {
         String searchKeyword = "Selenium WebDriver";
-        new GooglePage(driver).navigateTo_HomePage()
+        new Google_Page(driver).navigateTo_HomePage()
                 .searchByText(searchKeyword);
     }
 
@@ -79,7 +78,7 @@ public class Google_test {
         String indexInPage = "1";
         String expectedResult_searchResult = "WebDriver - Selenium";
 
-        new GooglePage(driver).navigateTo_HomePage()
+        new Google_Page(driver).navigateTo_HomePage()
                 .searchByTextAndIndex_fromList(searchKeyword, indexInList);
         String actualResult_searchResult = SearchResultsPage.getTextSearchResults(indexInPage);
 
@@ -98,7 +97,7 @@ public class Google_test {
         String indexInPage = "4";
         String expectedResult_searchResult = "TestNG Tutorial";
 
-        new GooglePage(driver).navigateTo_HomePage()
+        new Google_Page(driver).navigateTo_HomePage()
                 .searchByText(searchKeyword);
         String actualResult_searchResult = SearchResultsPage.getTextSearchResults(indexInPage);
 
@@ -117,7 +116,7 @@ public class Google_test {
         String indexInPage = "2";
         String expectedResult_searchResult = "https://www.linkedin.com";
 
-        String actualResult_currentUrl = new GooglePage(driver).navigateTo_HomePage()
+        String actualResult_currentUrl = new Google_Page(driver).navigateTo_HomePage()
                 .searchByText(searchKeyword)
                 .navigateTo_cucumberSearchResult(indexInPage)
                 .getCurrentPage_Url();
@@ -128,17 +127,7 @@ public class Google_test {
 
     }
 
-    @Test
-    @Severity(SeverityLevel.CRITICAL)
-    @Link("https://the-internet.herokuapp.com/checkboxes")
-    @TmsLink("Tc_006")
-    @Issue("Bug_006")
-    public void task_006_verifyCheckBoxes_checked() {
-        int indexInCheckBoxes = 1;
-        new CheckBoxPage(driver).navigateTo_HomePage()
-                .selectCheckBox(indexInCheckBoxes);
-        Assert.assertTrue(driver.findElement(CheckBoxPage.isCheckBoxes).isSelected());
-    }
+
 
 
     @Test
@@ -148,7 +137,7 @@ public class Google_test {
     @Issue("Bug_006")
     public void task_007_verifyCountry() {
         String countryName = "Austria";
-        String actualResult_countryName = new W3schoolPage(driver).navigateTo_HomePage()
+        String actualResult_countryName = new W3school_Page(driver).navigateTo_HomePage()
                 .getCountryName(countryName);
         Assert.assertTrue(actualResult_countryName.contains("Austria"));
 

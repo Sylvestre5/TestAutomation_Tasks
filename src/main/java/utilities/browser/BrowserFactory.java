@@ -1,10 +1,12 @@
-package utilities;
+package utilities.browser;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import utilities.actions.Helper;
+import utilities.Logger;
 
 import static org.testng.Assert.fail;
 

@@ -3,11 +3,11 @@ package gui.tasks;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import utilities.BrowserActions;
-import utilities.ElementActions;
-import utilities.Helper;
+import utilities.browser.BrowserActions;
+import utilities.actions.ElementActions;
+import utilities.actions.Helper;
 
-public class W3schoolPage {
+public class W3school_Page {
 
 
     // driver
@@ -15,18 +15,21 @@ public class W3schoolPage {
     private final String w3schoolUrl = Helper.getProperty("project.properties", "w3schoolUrl");
 
     // Constructor
-    public W3schoolPage(WebDriver driver) {
+    public W3school_Page(WebDriver driver) {
         this.driver = driver;
     }
 
     //////////////////////////// Elements Locators ////////////////////////////
+
+
     private By checkBoxes(int index) {
         return By.xpath("//input[@type='checkbox'][" + index + "]");
     }
 
 
-    public By countryName_txt(String countryName){
-        return By.xpath("//table[@id='customers']//child::tr[4]//td[contains(text(),'"+countryName+"')]");}
+    public By countryName_txt(String countryName) {
+        return By.xpath("//table[@id='customers']//child::tr[4]//td[contains(text(),'" + countryName + "')]");
+    }
 
     //////////////////////////// Business Actions ////////////////////////////
 
@@ -36,7 +39,7 @@ public class W3schoolPage {
      * @return self reference
      */
     @Step("Navigate to Home Page")
-    public W3schoolPage navigateTo_HomePage() {
+    public W3school_Page navigateTo_HomePage() {
         BrowserActions.navigateToUrl(driver, w3schoolUrl);
         return this;
     }
@@ -44,11 +47,6 @@ public class W3schoolPage {
     public String getCountryName(String countryName) {
         return ElementActions.getText(driver, countryName_txt(countryName));
     }
-
-
-
-
-
 
 
 }

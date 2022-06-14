@@ -1,8 +1,9 @@
-package utilities;
+package utilities.dataDriven;
 
 import io.restassured.path.json.JsonPath;
 import io.restassured.path.json.exception.JsonPathException;
 import org.testng.Assert;
+import utilities.Logger;
 
 import java.io.File;
 import java.io.FileNotFoundException;

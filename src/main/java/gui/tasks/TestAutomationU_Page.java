@@ -1,27 +1,75 @@
 package gui.tasks;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import utilities.ElementActions;
+import utilities.actions.ElementActions;
+import utilities.actions.Helper;
+import utilities.browser.BrowserActions;
 
 import java.awt.*;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.awt.event.KeyEvent;
 
-public class FileUploadPage {
+public class TestAutomationU_Page {
 
     private static WebDriver driver;
+
+    public TestAutomationU_Page(WebDriver driver) {
+        this.driver = driver;
+    }
+
+    private final String taUUrl = Helper.getProperty("project.properties", "taUUrl");
+
+
+    //////////////////////////// Elements Locators ////////////////////////////
+
+    private By checkBoxes(int index) {
+        return By.xpath("//input[@type='checkbox'][" + index + "]");
+    }
+
+    public static By isCheckBoxes = By.xpath("//form[@id='checkboxes']/input");
+    public By checkBoxesText = By.id("checkboxes");
+
     private By inputField = By.id("file-upload");
     private By upload_Button = By.id("file-submit");
     public static By uploadedFiles_text = By.id("uploaded-files");
 
     public static By fileUploader_dragDrop = By.id("drag-drop-upload");
 
-    public FileUploadPage(WebDriver driver) {
-        this.driver = driver;
+
+    //////////////////////////// Business Actions ////////////////////////////
+
+    /**
+     * Navigate to Home Page
+     *
+     * @return self reference
+     */
+    @Step("Navigate to Home Page")
+    public TestAutomationU_Page navigateTo_HomePage() {
+        BrowserActions.navigateToUrl(driver, taUUrl);
+        return this;
     }
 
+    @Step("Navigate to Home Page")
+    public TestAutomationU_Page navigateTo_HomePage(String serviceName) {
+        String url = taUUrl + "/" + serviceName;
+        BrowserActions.navigateToUrl(driver, url);
+        return this;
+    }
+
+    public TestAutomationU_Page selectCheckBox(int index) {
+        ElementActions.click(driver, checkBoxes(index));
+        ElementActions.getText(driver, checkBoxesText);
+        return this;
+    }
+
+
+    public TestAutomationU_Page clickUpload_dragDropArea() {
+        ElementActions.click(driver, fileUploader_dragDrop);
+        return this;
+    }
 
     /**
      * Provides path of file to the form then clicks Upload button
@@ -33,29 +81,17 @@ public class FileUploadPage {
      * @param absolutePathOfFile The complete path of the file to upload
      */
     // TODO check what is the problem with my framework when using type instead of "sendKeys"
-    public FileUploadPage uploadFileBy_inputFile(String absolutePathOfFile) throws InterruptedException {
+    public TestAutomationU_Page uploadFileBy_inputFile(String absolutePathOfFile) throws InterruptedException {
         driver.findElement(inputField).sendKeys(absolutePathOfFile);
-        return new FileUploadPage(driver);
+        return new TestAutomationU_Page(driver);
     }
 
-    public FileUploadPage clickUploadButton() {
+    public TestAutomationU_Page clickUploadButton() {
         ElementActions.click(driver, upload_Button);
         return this;
     }
 
-    public FileUploadPage clickUpload_dragDropArea() {
-        ElementActions.click(driver, fileUploader_dragDrop);
-        return this;
-    }
-
-
-    public static String getUploadedFiles_text() {
-
-        return ElementActions.getText(driver, uploadedFiles_text);
-    }
-
-
-    public FileUploadPage uploadFileBy_robot(String absolutePathOfFile) throws InterruptedException, AWTException {
+    public TestAutomationU_Page uploadFileBy_robot(String absolutePathOfFile) throws InterruptedException, AWTException {
         Robot robot = new Robot();
 
         // Copy your file’s absolute path to the clipboard
@@ -81,5 +117,8 @@ public class FileUploadPage {
         return this;
     }
 
+    public static String getUploadedFiles_text() {
 
+        return ElementActions.getText(driver, uploadedFiles_text);
+    }
 }

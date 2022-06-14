@@ -1,6 +1,7 @@
 package utilities;
 
 import io.qameta.allure.Step;
+import utilities.actions.Helper;
 
 public class Logger {
 

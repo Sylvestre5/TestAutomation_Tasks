@@ -2,7 +2,7 @@ package gui.tasks;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import utilities.ElementActions;
+import utilities.actions.ElementActions;
 
 public class SearchResultsPage {
 	// driver
@@ -48,9 +48,9 @@ public class SearchResultsPage {
 	 * @param index*
 	 * @return self reference
 	 */
-	public CucumberPage navigateTo_cucumberSearchResult(String index) {
+	public Cucumber_Page navigateTo_cucumberSearchResult(String index) {
 		ElementActions.click(driver, getSearchResultsNumber(index));
-		return new CucumberPage(driver);
+		return new Cucumber_Page(driver);
 	}
 
 }

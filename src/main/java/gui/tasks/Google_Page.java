@@ -5,22 +5,22 @@ import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import io.qameta.allure.Step;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import utilities.BrowserActions;
-import utilities.ElementActions;
-import utilities.Helper;
+import utilities.browser.BrowserActions;
+import utilities.actions.ElementActions;
+import utilities.actions.Helper;
 
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class GooglePage {
+public class Google_Page {
     // driver
     private static WebDriver driver;
 
     // Constructor
-    public GooglePage(WebDriver driver) {
-        GooglePage.driver = driver;
+    public Google_Page(WebDriver driver) {
+        Google_Page.driver = driver;
     }
 
     private final String googleUrl = Helper.getProperty("project.properties", "googleUrl");
@@ -47,7 +47,7 @@ public class GooglePage {
      * @return self reference
      */
     @Step("Navigate to Home Page")
-    public GooglePage navigateTo_HomePage() {
+    public Google_Page navigateTo_HomePage() {
         BrowserActions.navigateToUrl(driver, googleUrl);
         return this;
     }
@@ -79,7 +79,7 @@ public class GooglePage {
      */
     @Step("Check logo is displayed")
     public boolean isGoogleLogoDisplayed() {
-        String imgPath =System.getProperty("user.dir")+"/src/test/resources/testData/google_testData/getImage/actualImage/"+"googleTest.png";
+        String imgPath = System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/getImage/actualImage/" + "googleTest.png";
         Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save(imgPath);
         return driver.findElement(googleLogo_image).isDisplayed();
     }
@@ -89,7 +89,7 @@ public class GooglePage {
         TakesScreenshot ts = (TakesScreenshot) driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
         String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName
-               + ".png";
+                + ".png";
         File finalDestination = new File(destination);
         FileUtils.copyFile(source, finalDestination);
 
