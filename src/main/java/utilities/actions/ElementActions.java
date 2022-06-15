@@ -170,6 +170,27 @@ public class ElementActions {
         return this;
     }
 
+    public static void dragAndDrop(WebDriver driver, By sourceLocator, By targetLocator) {
+
+        Helper.locatingElementStrategy(driver, sourceLocator);
+        Helper.locatingElementStrategy(driver, targetLocator);
+        try {
+            Actions actions = new Actions(driver);
+            WebElement source = driver.findElement(sourceLocator);
+            WebElement target = driver.findElement(targetLocator);
+            actions.dragAndDrop(source, target);
+        } catch (Exception e) {
+            Logger.logStep(e.getMessage());
+            fail(e.getMessage());
+        }
+    }
+
+    public ElementActions dragAndDrop(By sourceLocator,By targetLocator) {
+        dragAndDrop(driver, sourceLocator, targetLocator);
+        return this;
+    }
+
+
     public static void clickKeyboardKey(WebDriver driver, By elementLocator, Keys key) {
         Helper.locatingElementStrategy(driver, elementLocator);
         try {

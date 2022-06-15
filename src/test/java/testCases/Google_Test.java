@@ -1,7 +1,7 @@
 package testCases;
 
 import gui.tasks.Google_Page;
-import gui.tasks.SearchResultsPage;
+import gui.tasks.SearchResults_Page;
 import gui.tasks.W3school_Page;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
@@ -9,18 +9,32 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import utilities.actions.Helper;
 import utilities.browser.BrowserActions;
 import utilities.browser.BrowserFactory;
+import utilities.dataDriven.ExcelFileManager;
+import utilities.dataDriven.JSONFileManager;
 
+import java.io.File;
 import java.io.IOException;
 
 
-public class Google_test {
+public class Google_Test {
     private WebDriver driver;
+
+    JSONFileManager jsonFileManager;
+
+    ExcelFileManager excelFileManager;
+
 
     @BeforeMethod
     public void setUpBeforeMethod() {
         driver = BrowserFactory.getBrowser();
+        jsonFileManager = new JSONFileManager(Helper
+                .getProperty("project.properties", "googleJson"));
+        excelFileManager = new ExcelFileManager(new File(Helper
+                .getProperty("project.properties", "googleExcel")));
+        excelFileManager.switchToSheet("google");
 
     }
 
@@ -39,8 +53,6 @@ public class Google_test {
         new Google_Page(driver).navigateTo_HomePage();
         Google_Page.getCurrentPage_Url();
         Assert.assertTrue(Google_Page.getTitle_Page().contains(expectedResult_pageTitle));
-
-
     }
 
     @Test
@@ -51,7 +63,7 @@ public class Google_test {
     public void task_002_CheckGoogleLogo_isDisplayed() throws IOException {
         new Google_Page(driver).navigateTo_HomePage()
                 .isGoogleLogoDisplayed();
-        Google_Page.getScreenshot(driver,"tesSc");
+        Google_Page.getScreenshot(driver, "tesSc");
 
 //        Assert.assertTrue(GooglePage.isGoogleLogoDisplayed());
     }
@@ -73,14 +85,14 @@ public class Google_test {
     @TmsLink("Tc_003")
     @Issue("Bug_003")
     public void task_003_search_getFirstResult() {
-        String searchKeyword = "Selenium WebDriver";
-        int indexInList = 1;
-        String indexInPage = "1";
-        String expectedResult_searchResult = "WebDriver - Selenium";
+        String searchKeyword = jsonFileManager.getTestData("query");
+        int indexInList = Integer.parseInt(jsonFileManager.getTestData("indexList"));
+        String indexInPage = jsonFileManager.getTestData("indexPage");
+        String expectedResult_searchResult = jsonFileManager.getTestData("expectedResult_searchResult");
 
         new Google_Page(driver).navigateTo_HomePage()
                 .searchByTextAndIndex_fromList(searchKeyword, indexInList);
-        String actualResult_searchResult = SearchResultsPage.getTextSearchResults(indexInPage);
+        String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
 
         Assert.assertEquals(actualResult_searchResult, expectedResult_searchResult);
         System.out.println("Actual Result: " + actualResult_searchResult + " == " + "Expected Result: "
@@ -99,7 +111,7 @@ public class Google_test {
 
         new Google_Page(driver).navigateTo_HomePage()
                 .searchByText(searchKeyword);
-        String actualResult_searchResult = SearchResultsPage.getTextSearchResults(indexInPage);
+        String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
 
         Assert.assertEquals(actualResult_searchResult, expectedResult_searchResult);
         System.out.println("Actual Result: " + actualResult_searchResult + " == " + "Expected Result: "
@@ -112,9 +124,9 @@ public class Google_test {
     @TmsLink("Tc_005")
     @Issue("Bug_005")
     public void task_005_search_openSecondResult() {
-        String searchKeyword = "Cucumber IO";
-        String indexInPage = "2";
-        String expectedResult_searchResult = "https://www.linkedin.com";
+        String searchKeyword = excelFileManager.getCellData("query", 2);
+        String indexInPage = excelFileManager.getCellData("indexInPage", 2);
+        String expectedResult_searchResult = excelFileManager.getCellData("expectedResult_searchResult", 2);
 
         String actualResult_currentUrl = new Google_Page(driver).navigateTo_HomePage()
                 .searchByText(searchKeyword)
@@ -126,8 +138,6 @@ public class Google_test {
 
 
     }
-
-
 
 
     @Test

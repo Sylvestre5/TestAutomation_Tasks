@@ -1,9 +1,6 @@
 package utilities.actions;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import utilities.Logger;
@@ -20,7 +17,7 @@ import static org.testng.Assert.fail;
 
 public class Helper {
     private static FileReader reader = null;
-    private static final String  propertiesRoot = "src/main/resources/";
+    private static final String propertiesRoot = "src/main/resources/";
     private static Properties properties = new Properties();
 
     /**
@@ -64,7 +61,7 @@ public class Helper {
      * exception
      *
      * @param driver*
-	 * @param elementLocator*
+     * @param elementLocator*
      */
     protected static void locatingElementStrategy(WebDriver driver, By elementLocator) {
         try {
@@ -86,6 +83,30 @@ public class Helper {
             fail(e.getMessage());
         }
     }
+/*
+
+    protected static void locatingElementStrategy(WebDriver driver, WebElement elementLocator) {
+        try {
+            // Wait for the element to be visible
+            Helper.getExplicitWait(driver).until(ExpectedConditions.visibilityOfElementLocated((By) elementLocator));
+            // Scroll the element into view to handle some browsers cases
+            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);",
+                    elementLocator);
+
+            if (!elementLocator.isDisplayed()) {
+                Logger.logStep("The element [" + elementLocator.toString() + "] is not Displayed");
+                fail("The element [" + elementLocator.toString() + "] is not Displayed");
+            }
+        } catch (TimeoutException toe) {
+            Logger.logStep(toe.getMessage());
+            fail(toe.getMessage());
+        } catch (Exception e) {
+            Logger.logStep(e.getMessage());
+            fail(e.getMessage());
+        }
+    }
+*/
+
 
     public static String getCurrentTime(String dateFormat) {
         String currentTime = "";

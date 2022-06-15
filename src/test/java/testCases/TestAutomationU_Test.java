@@ -11,6 +11,7 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import utilities.actions.ElementActions;
 import utilities.browser.BrowserActions;
 import utilities.browser.BrowserFactory;
 
@@ -81,13 +82,12 @@ public class TestAutomationU_Test {
     @Test
     public void task_009_DragAndDrop() {
         driver.get("https://jqueryui.com/resources/demos/droppable/default.html");
-        WebElement source = driver.findElement(By.id("draggable"));
-        WebElement target = driver.findElement(By.id("droppable"));
+        By source = By.id("draggable");
+        By target = By.id("droppable");
 
-        Actions actions = new Actions(driver);
-        actions.dragAndDrop(source, target).build().perform();
+        ElementActions.dragAndDrop(driver, source, target);
 
-        Assert.assertEquals("Dropped!", target.getText());
+       /* Assert.assertEquals("Dropped!", driver.findElement(target).getText());*/
 
     }
 

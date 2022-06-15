@@ -29,7 +29,7 @@ public class Google_Page {
 //    public static By googleLogo_image = By.xpath("//img[@id='hplogo']");
 
     public static By googleLogo_image = By.xpath("//img[@alt='Google']");
-    private static By search_textBx = By.xpath("//input[@name='q']");
+    private static final By search_textBx = By.xpath("//input[@name='q']");
 
     private By inputSearchKeyWord(String searchQuery) {
         return By.xpath("//div/span[contains(text(),'" + searchQuery + "')]");
@@ -49,6 +49,8 @@ public class Google_Page {
     @Step("Navigate to Home Page")
     public Google_Page navigateTo_HomePage() {
         BrowserActions.navigateToUrl(driver, googleUrl);
+
+
         return this;
     }
 
@@ -118,10 +120,10 @@ public class Google_Page {
      * @return self reference
      */
 
-    public SearchResultsPage searchByText(String searchKeyWord) {
+    public SearchResults_Page searchByText(String searchKeyWord) {
         ElementActions.type(driver, search_textBx, searchKeyWord);
         ElementActions.clickKeyboardKey(driver, search_textBx, Keys.ENTER);
-        return new SearchResultsPage(driver);
+        return new SearchResults_Page(driver);
     }
 
     /**
@@ -131,10 +133,10 @@ public class Google_Page {
      * @return self reference
      */
 
-    public SearchResultsPage searchByTextAndIndex_fromList(String searchKeyword, int index) {
+    public SearchResults_Page searchByTextAndIndex_fromList(String searchKeyword, int index) {
         ElementActions.type(driver, search_textBx, searchKeyword);
         ElementActions.click(driver, inputOrdinalNumber_SearchList(index));
-        return new SearchResultsPage(driver);
+        return new SearchResults_Page(driver);
     }
 
 }

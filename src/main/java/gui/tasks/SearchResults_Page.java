@@ -1,15 +1,17 @@
 package gui.tasks;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utilities.actions.ElementActions;
+import utilities.browser.BrowserActions;
 
-public class SearchResultsPage {
+public class SearchResults_Page {
 	// driver
 	private static WebDriver driver;
 
 	// Constructor
-	public SearchResultsPage(WebDriver driver) {
+	public SearchResults_Page(WebDriver driver) {
 		this.driver = driver;
 	}
 
@@ -48,9 +50,15 @@ public class SearchResultsPage {
 	 * @param index*
 	 * @return self reference
 	 */
-	public Cucumber_Page navigateTo_cucumberSearchResult(String index) {
+	public SearchResults_Page navigateTo_cucumberSearchResult(String index) {
 		ElementActions.click(driver, getSearchResultsNumber(index));
-		return new Cucumber_Page(driver);
+		return this;
 	}
+
+
+    @Step("Get Current Page URL")
+    public static String getCurrentPage_Url() {
+        return BrowserActions.getCurrentPageUrlTitle(driver);
+    }
 
 }
