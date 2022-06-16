@@ -20,16 +20,16 @@ import static com.tasks.gui.pages.TestAutomationU_Page.uploadedFiles_text;
 
 public class TestAutomationU_Test {
 
-    private WebDriver driver;
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     @BeforeMethod
     public void setUp_BeforeMethod() {
-        driver = BrowserFactory.getBrowser();
+        driver.set( BrowserFactory.getBrowser());
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod()
     public void closeBrowser() {
-        BrowserActions.closeAllOpenedBrowserWindows(driver);
+        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
 
 
@@ -40,9 +40,9 @@ public class TestAutomationU_Test {
     @Issue("Bug_006")
     public void task_006_verifyCheckBoxes_checked() {
         int indexInCheckBoxes = 1;
-        new TestAutomationU_Page(driver).navigateTo_HomePage("checkboxes")
+        new TestAutomationU_Page(driver.get()).navigateTo_HomePage("checkboxes")
                 .selectCheckBox(indexInCheckBoxes);
-        Assert.assertTrue(driver.findElement(TestAutomationU_Page.isCheckBoxes).isSelected());
+        Assert.assertTrue(driver.get().findElement(TestAutomationU_Page.isCheckBoxes).isSelected());
     }
 
 
@@ -54,14 +54,14 @@ public class TestAutomationU_Test {
     public void task_007_UploadedFile_inputField() throws InterruptedException {
         String imageName = "uploadPic.jpg";
         String imagePath = System.getProperty("user.dir") + "/src/test/resources/Uploads/" + imageName;
-        new TestAutomationU_Page(driver).navigateTo_HomePage("upload");
-        new TestAutomationU_Page(driver)
+        new TestAutomationU_Page(driver.get()).navigateTo_HomePage("upload");
+        new TestAutomationU_Page(driver.get())
                 .uploadFileBy_inputFile(imagePath)
                 .clickUploadButton();
 
         Assert.assertEquals(imageName, TestAutomationU_Page.getUploadedFiles_text(), "The Validation Message is incorrect");
         Assert.assertTrue(TestAutomationU_Page.getUploadedFiles_text().contains(imageName));
-        Assert.assertTrue((driver.findElement(uploadedFiles_text).isDisplayed()));
+        Assert.assertTrue((driver.get().findElement(uploadedFiles_text).isDisplayed()));
     }
 
 
@@ -69,21 +69,21 @@ public class TestAutomationU_Test {
     public void task_007_UploadFile_WithRobot() throws InterruptedException, AWTException {
         String imageName = "uploadPic.jpg";
         String imagePath = "C:\\Users\\ismail\\Automation Projects\\Projects - Ismail_Elshafeiy\\Practice_TestAutomation_SeleniumWebDriver\\src\\test\\resources\\Uploads\\" + imageName;
-        new TestAutomationU_Page(driver).navigateTo_HomePage("upload");
-        new TestAutomationU_Page(driver).clickUpload_dragDropArea()
+        new TestAutomationU_Page(driver.get()).navigateTo_HomePage("upload");
+        new TestAutomationU_Page(driver.get()).clickUpload_dragDropArea()
                 .uploadFileBy_robot(imagePath);
-        Assert.assertTrue(driver.findElement(fileUploader_dragDrop).getText().contains(imageName));
-        Assert.assertTrue((driver.findElement(fileUploader_dragDrop).isDisplayed()));
+        Assert.assertTrue(driver.get().findElement(fileUploader_dragDrop).getText().contains(imageName));
+        Assert.assertTrue((driver.get().findElement(fileUploader_dragDrop).isDisplayed()));
     }
 
 
     @Test
     public void task_009_DragAndDrop() {
-        driver.get("https://jqueryui.com/resources/demos/droppable/default.html");
+        driver.get().get("https://jqueryui.com/resources/demos/droppable/default.html");
         By source = By.id("draggable");
         By target = By.id("droppable");
 
-        ElementActions.dragAndDrop(driver, source, target);
+        ElementActions.dragAndDrop(driver.get(), source, target);
 
        /* Assert.assertEquals("Dropped!", driver.findElement(target).getText());*/
 

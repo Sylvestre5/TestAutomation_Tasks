@@ -8,6 +8,7 @@ import utilities.Logger;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
@@ -111,7 +112,9 @@ public class Helper {
     public static String getCurrentTime(String dateFormat) {
         String currentTime = "";
         try {
-            currentTime = new SimpleDateFormat(dateFormat).format(new Date());
+
+      currentTime = new SimpleDateFormat(dateFormat).format(new Date());
+
         } catch (IllegalArgumentException e) {
             Logger.logStep(e.getMessage());
             fail(e.getMessage());
@@ -120,7 +123,7 @@ public class Helper {
     }
 
     public static String getCurrentTime() {
-        return getCurrentTime("ddMMyyyyHHmmssSSS");
+        return getCurrentTime("ddMMyyyyHHmmss");
     }
 
 }

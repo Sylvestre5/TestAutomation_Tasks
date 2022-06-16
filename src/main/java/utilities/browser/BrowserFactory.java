@@ -70,6 +70,9 @@ public class BrowserFactory {
         }
     }
 
+
+
+
     private static ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions =
                 new ChromeOptions();
@@ -130,6 +133,7 @@ public class BrowserFactory {
                     context.setAttribute("driver", driver.get());
                     Helper.implicitWait(driver.get());
                 } catch (MalformedURLException e) {
+                    Logger.logMessage("Invalid grid URL" + e.getMessage());
                     e.printStackTrace();
                 }
 
@@ -141,6 +145,7 @@ public class BrowserFactory {
                         capabilities.setPlatform(Platform.LINUX);
                         Helper.implicitWait(driver.get());
                     } catch (MalformedURLException e) {
+                        Logger.logMessage("Invalid grid URL" + e.getMessage());
                         e.printStackTrace();
                     }
 

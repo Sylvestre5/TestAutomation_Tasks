@@ -9,23 +9,23 @@ import utilities.browser.BrowserActions;
 import utilities.browser.BrowserFactory;
 
 public class W3schools_Test {
-    private WebDriver driver;
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     @BeforeMethod
     public void setUpBeforeMethod() {
-        driver = BrowserFactory.getBrowser();
+        driver.set(BrowserFactory.getBrowser());
 
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod()
     public void closeBrowser() {
-        BrowserActions.closeAllOpenedBrowserWindows(driver);
+        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
 
 
     @Test
     public void task_007_verifyCountryInTable() {
-        new W3school_Page(driver).navigateTo_HomePage()
+        new W3school_Page(driver.get()).navigateTo_HomePage()
                 .getCountryName("Austria");
     }
 

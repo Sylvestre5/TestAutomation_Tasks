@@ -20,27 +20,27 @@ import java.io.IOException;
 
 
 public class Google_Test {
-    private WebDriver driver;
+    ;
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private final ThreadLocal<JSONFileManager> jsonFileManager = new ThreadLocal<>();
 
-    JSONFileManager jsonFileManager;
-
-    ExcelFileManager excelFileManager;
+    private final ThreadLocal<ExcelFileManager> excelFileManager = new ThreadLocal<>();
 
 
     @BeforeMethod
     public void setUpBeforeMethod() {
-        driver = BrowserFactory.getBrowser();
-        jsonFileManager = new JSONFileManager(Helper
-                .getProperty("project.properties", "googleJson"));
-        excelFileManager = new ExcelFileManager(new File(Helper
-                .getProperty("project.properties", "googleExcel")));
-        excelFileManager.switchToSheet("google");
+        driver.set(BrowserFactory.getBrowser());
+        jsonFileManager.set(new JSONFileManager(Helper
+                .getProperty("project.properties", "googleJson")));
+        excelFileManager.set(new ExcelFileManager(new File(Helper
+                .getProperty("project.properties", "googleExcel"))));
+        excelFileManager.get().switchToSheet("google");
 
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod()
     public void closeBrowser() {
-        BrowserActions.closeAllOpenedBrowserWindows(driver);
+        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
 
     @Test
@@ -50,7 +50,7 @@ public class Google_Test {
     @Issue("Bug_002")
     public void task_001_CheckPageTitle() {
         String expectedResult_pageTitle = "Google";
-        new Google_Page(driver).navigateTo_HomePage();
+        new Google_Page(driver.get()).navigateTo_HomePage();
         Google_Page.getCurrentPage_Url();
         Assert.assertTrue(Google_Page.getTitle_Page().contains(expectedResult_pageTitle));
     }
@@ -61,9 +61,9 @@ public class Google_Test {
     @TmsLink("Tc_002")
     @Issue("Bug_002")
     public void task_002_CheckGoogleLogo_isDisplayed() throws IOException {
-        new Google_Page(driver).navigateTo_HomePage()
+        new Google_Page(driver.get()).navigateTo_HomePage()
                 .isGoogleLogoDisplayed();
-        Google_Page.takeFullPage_screenShot(driver, "FullPage_Screenshot");
+        Google_Page.takeFullPage_screenShot(driver.get(), "FullPage_Screenshot");
         Google_Page.takeWebElement_screenshot("googleLogo");
 
 
@@ -77,7 +77,7 @@ public class Google_Test {
     @Issue("Bug")
     public void task_search_getResultByText() {
         String searchKeyword = "Selenium WebDriver";
-        new Google_Page(driver).navigateTo_HomePage()
+        new Google_Page(driver.get()).navigateTo_HomePage()
                 .searchByText(searchKeyword);
     }
 
@@ -87,12 +87,12 @@ public class Google_Test {
     @TmsLink("Tc_003")
     @Issue("Bug_003")
     public void task_003_search_getFirstResult() {
-        String searchKeyword = jsonFileManager.getTestData("query");
-        int indexInList = Integer.parseInt(jsonFileManager.getTestData("indexList"));
-        String indexInPage = jsonFileManager.getTestData("indexPage");
-        String expectedResult_searchResult = jsonFileManager.getTestData("expectedResult_searchResult");
+        String searchKeyword = jsonFileManager.get().getTestData("query");
+        int indexInList = Integer.parseInt(jsonFileManager.get().getTestData("indexList"));
+        String indexInPage = jsonFileManager.get().getTestData("indexPage");
+        String expectedResult_searchResult = jsonFileManager.get().getTestData("expectedResult_searchResult");
 
-        new Google_Page(driver).navigateTo_HomePage()
+        new Google_Page(driver.get()).navigateTo_HomePage()
                 .searchByTextAndIndex_fromList(searchKeyword, indexInList);
         String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
 
@@ -111,7 +111,7 @@ public class Google_Test {
         String indexInPage = "4";
         String expectedResult_searchResult = "TestNG Tutorial";
 
-        new Google_Page(driver).navigateTo_HomePage()
+        new Google_Page(driver.get()).navigateTo_HomePage()
                 .searchByText(searchKeyword);
         String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
 
@@ -126,11 +126,11 @@ public class Google_Test {
     @TmsLink("Tc_005")
     @Issue("Bug_005")
     public void task_005_search_openSecondResult() {
-        String searchKeyword = excelFileManager.getCellData("query", 2);
-        String indexInPage = excelFileManager.getCellData("indexInPage", 2);
-        String expectedResult_searchResult = excelFileManager.getCellData("expectedResult_searchResult", 2);
+        String searchKeyword = excelFileManager.get().getCellData("query", 2);
+        String indexInPage = excelFileManager.get().getCellData("indexInPage", 2);
+        String expectedResult_searchResult = excelFileManager.get().getCellData("expectedResult_searchResult", 2);
 
-        String actualResult_currentUrl = new Google_Page(driver).navigateTo_HomePage()
+        String actualResult_currentUrl = new Google_Page(driver.get()).navigateTo_HomePage()
                 .searchByText(searchKeyword)
                 .navigateTo_cucumberSearchResult(indexInPage)
                 .getCurrentPage_Url();
@@ -149,7 +149,7 @@ public class Google_Test {
     @Issue("Bug_006")
     public void task_007_verifyCountry() {
         String countryName = "Austria";
-        String actualResult_countryName = new W3school_Page(driver).navigateTo_HomePage()
+        String actualResult_countryName = new W3school_Page(driver.get()).navigateTo_HomePage()
                 .getCountryName(countryName);
         Assert.assertTrue(actualResult_countryName.contains("Austria"));
 
