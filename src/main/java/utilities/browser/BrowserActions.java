@@ -30,9 +30,9 @@ public class BrowserActions {
         }
     }
 
-    @Step("Close All Opened Browser Windows.....")
+    @Step("Close Browser Windows.....")
     public static void closeAllOpenedBrowserWindows(WebDriver driver) {
-        Logger.logStep("[Browser Action] Close all Opened Browser Windows");
+        Logger.logStep("[Browser Action] Close Browser Windows");
         if (driver != null) {
             try {
                 driver.quit();

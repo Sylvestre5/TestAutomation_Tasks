@@ -71,8 +71,6 @@ public class BrowserFactory {
     }
 
 
-
-
     private static ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions =
                 new ChromeOptions();
@@ -113,21 +111,8 @@ public class BrowserFactory {
 
         // Remote execution condition
         if (executionType == ExecutionType.REMOTE || (executionType == ExecutionType.FROM_PROPERTIES && executionTypeProperty.equalsIgnoreCase("remote"))) {
-            /*
-             * Steps to execute remotely with selenium grid and dockers VERY simple steps:...
-             * 1- Install docker
-             * 2- You need to have a .yml file to configure the network between the containers like that we have in the src/main/resource file "docker-compose_native.yml"
-             * 3- open a terminal on the .yml file directory
-             * 4- Enter the following command that will setup the containers (1 hub & 4 nodes) and run them automatically:
-             * docker-compose -f docker-compose_native.yml up --scale chrome=4 --remove-orphans -d
-             * 5- Enter the following command to check the running containers: docker ps
-             * 6- open a browser and enter this url to see the grid http://localhost:4444/ui/index.html
-             * 7- execute using this condition
-             */
-
             // Check the browser typeProperty is Chrome >>>>
             if (browserType == BrowserType.GOOGLE_CHROME || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
-
                 try {
                     driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getChromeOptions()));
                     context.setAttribute("driver", driver.get());
@@ -139,7 +124,6 @@ public class BrowserFactory {
 
                 // Check the operating system type is Linux >>>>
                 if (operatingSystemType == OperatingSystemType.LINUX || (operatingSystemType == OperatingSystemType.FROM_PROPERTIES && operatingSystemTypeProperty.equalsIgnoreCase("Linux-64"))) {
-
                     try {
                         driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getChromeOptions()));
                         capabilities.setPlatform(Platform.LINUX);
@@ -177,7 +161,6 @@ public class BrowserFactory {
 
                 if (operatingSystemType == OperatingSystemType.LINUX
                         || (operatingSystemType == OperatingSystemType.FROM_PROPERTIES && operatingSystemTypeProperty.equalsIgnoreCase("Linux-64"))) {
-
                     try {
                         driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getFirefoxOptions()));
                         capabilities.setPlatform(Platform.LINUX);
@@ -199,7 +182,6 @@ public class BrowserFactory {
                     Logger.logMessage(warningMsg);
                     fail(warningMsg);
                 }
-
             } else {
                 String warningMsg = "The driver is null! because the browser type [" + browserTypeProperty + "] is not valid, Please choose a valid browser type from properties file";
                 Logger.logMessage(warningMsg);
@@ -215,7 +197,6 @@ public class BrowserFactory {
 
 
         else if (executionType == ExecutionType.LOCAL || (executionType == ExecutionType.FROM_PROPERTIES && executionTypeProperty.equalsIgnoreCase("local"))) {
-
             if (browserType == BrowserType.GOOGLE_CHROME
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
                 WebDriverManager.chromedriver().setup();
@@ -247,7 +228,6 @@ public class BrowserFactory {
 
         else if (executionType == ExecutionType.LOCAL_HEADLESS
                 || (executionType == ExecutionType.FROM_PROPERTIES && executionTypeProperty.equalsIgnoreCase("local headless"))) {
-
             if (browserType == BrowserType.GOOGLE_CHROME
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
                 WebDriverManager.chromedriver().setup();
