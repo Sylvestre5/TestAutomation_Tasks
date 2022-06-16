@@ -1,4 +1,4 @@
-package gui.tasks;
+package com.tasks.gui.pages;
 
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;

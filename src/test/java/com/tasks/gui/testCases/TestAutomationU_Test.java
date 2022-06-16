@@ -1,12 +1,10 @@
-package testCases;
+package com.tasks.gui.testCases;
 
 
-import gui.tasks.TestAutomationU_Page;
+import com.tasks.gui.pages.TestAutomationU_Page;
 import io.qameta.allure.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -17,8 +15,8 @@ import utilities.browser.BrowserFactory;
 
 import java.awt.*;
 
-import static gui.tasks.TestAutomationU_Page.fileUploader_dragDrop;
-import static gui.tasks.TestAutomationU_Page.uploadedFiles_text;
+import static com.tasks.gui.pages.TestAutomationU_Page.fileUploader_dragDrop;
+import static com.tasks.gui.pages.TestAutomationU_Page.uploadedFiles_text;
 
 public class TestAutomationU_Test {
 

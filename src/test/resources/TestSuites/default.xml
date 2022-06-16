@@ -3,7 +3,7 @@
 <suite name="All Test Suite">
     <test name="Test Automation - Tasks">
         <classes>
-            <class name="testCases.Google_Test">
+            <class name="com.tasks.gui.testCases.Google_Test">
                 <methods>
                     <include name="task_001_CheckPageTitle"/>
                 </methods>

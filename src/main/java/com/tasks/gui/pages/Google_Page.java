@@ -1,14 +1,19 @@
-package gui.tasks;
+package com.tasks.gui.pages;
 
 
 import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import io.qameta.allure.Step;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import utilities.browser.BrowserActions;
+import org.openqa.selenium.io.FileHandler;
+import ru.yandex.qatools.ashot.comparison.ImageDiff;
+import ru.yandex.qatools.ashot.comparison.ImageDiffer;
 import utilities.actions.ElementActions;
 import utilities.actions.Helper;
+import utilities.browser.BrowserActions;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -86,16 +91,46 @@ public class Google_Page {
         return driver.findElement(googleLogo_image).isDisplayed();
     }
 
-    public static void getScreenshot(WebDriver driver, String screenshotName) throws IOException {
+    public static void takeFullPage_screenShot(WebDriver driver, String screenshotName) throws IOException {
         String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
         TakesScreenshot ts = (TakesScreenshot) driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
-        String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName
-                + ".png";
-        File finalDestination = new File(destination);
-        FileUtils.copyFile(source, finalDestination);
+
+        try {
+            String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName
+                    + ".png";
+            File finalDestination = new File(destination);
+            FileUtils.copyFile(source, finalDestination);
+
+        } catch (Exception e) {
+            System.out.println("Exception while taking screenshot: " + e.getMessage());
+        }
+    }
+
+    public static void takeWebElement_screenshot(String screenshotName) throws IOException {
+        WebElement element = driver.findElement(googleLogo_image);
+        File source = element.getScreenshotAs(OutputType.FILE);
+        File destination = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/actualImage/" + screenshotName + ".png");
+        FileHandler.copy(source, destination);
+        File image = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/expectedImage/expectedGoogleLogo.png");
+
+        BufferedImage expectedImage = ImageIO.read(image);
+        BufferedImage actualImage = ImageIO.read(destination);
+        System.out.println("image " + " [ " + expectedImage + " ] ");
+        System.out.println("actualImage" + " [ " + actualImage + " ] ");
+
+        ImageDiffer imageDiffer = new ImageDiffer();
+
+        ImageDiff diff = imageDiffer.makeDiff(expectedImage, actualImage);
+        if (diff.hasDiff()) {
+            System.out.println("Images are different");
+        } else {
+            System.out.println("Images are same");
+        }
+
 
     }
+
 
 /*    public void GooglePage takeScreenShootGooglePage() {
         String imgPath = "src/test/resources/testData/google_testData/getImage/actualImage";

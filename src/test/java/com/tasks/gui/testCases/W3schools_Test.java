@@ -1,6 +1,6 @@
-package testCases;
+package com.tasks.gui.testCases;
 
-import gui.tasks.W3school_Page;
+import com.tasks.gui.pages.W3school_Page;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;

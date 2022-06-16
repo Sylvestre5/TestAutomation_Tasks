@@ -71,24 +71,24 @@ public class BrowserFactory {
     }
 
     private static ChromeOptions getChromeOptions() {
-        ChromeOptions chOptions =
+        ChromeOptions chromeOptions =
                 new ChromeOptions();
-        chOptions.setHeadless(true);
-        chOptions.addArguments("--window-size=1920,1080");
-        return chOptions;
+        chromeOptions.setHeadless(true);
+        chromeOptions.addArguments("--window-size=1920,1080");
+        return chromeOptions;
     }
 
     private static FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions ffOptions
+        FirefoxOptions firefoxOptions
                 = new FirefoxOptions();
-        ffOptions.setHeadless(true);
-        ffOptions.addArguments("--window-size=1920,1080");
-        return ffOptions;
+        firefoxOptions.setHeadless(true);
+        firefoxOptions.addArguments("--window-size=1920,1080");
+        return firefoxOptions;
     }
 
 
     /**
-     * Check the Browser and Execution from properties file
+     * Check the Browser, Execution and Operating System from properties file
      *
      * @return BrowserType , ExecutionType
      */
@@ -118,7 +118,7 @@ public class BrowserFactory {
              * 4- Enter the following command that will setup the containers (1 hub & 4 nodes) and run them automatically:
              * docker-compose -f docker-compose_native.yml up --scale chrome=4 --remove-orphans -d
              * 5- Enter the following command to check the running containers: docker ps
-             * 6- open a browser and enter this url to see the grid :D http://localhost:4444/ui/index.html
+             * 6- open a browser and enter this url to see the grid http://localhost:4444/ui/index.html
              * 7- execute using this condition
              */
 

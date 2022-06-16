@@ -1,8 +1,8 @@
-package testCases;
+package com.tasks.gui.testCases;
 
-import gui.tasks.Google_Page;
-import gui.tasks.SearchResults_Page;
-import gui.tasks.W3school_Page;
+import com.tasks.gui.pages.Google_Page;
+import com.tasks.gui.pages.SearchResults_Page;
+import com.tasks.gui.pages.W3school_Page;
 import io.qameta.allure.*;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
@@ -63,7 +63,9 @@ public class Google_Test {
     public void task_002_CheckGoogleLogo_isDisplayed() throws IOException {
         new Google_Page(driver).navigateTo_HomePage()
                 .isGoogleLogoDisplayed();
-        Google_Page.getScreenshot(driver, "tesSc");
+        Google_Page.takeFullPage_screenShot(driver, "FullPage_Screenshot");
+        Google_Page.takeWebElement_screenshot("googleLogo");
+
 
 //        Assert.assertTrue(GooglePage.isGoogleLogoDisplayed());
     }
