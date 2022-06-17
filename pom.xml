@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>org.TA_tasks</groupId>
+    <groupId>io.github.IsamilElshafeiy</groupId>
     <artifactId>TestAutomation_Tasks</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-SNAPSHOT</version>
     <name>Test Automation - Tasks</name>
 
     <properties>
@@ -69,6 +67,7 @@
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>${testng.version}</version>
+<!--            <scope>test</scope>-->
         </dependency>
         <dependency>
             <!-- REST ASSURED -->
@@ -191,7 +190,6 @@
             <version>1.5.4</version>
         </dependency>
 
-
     </dependencies>
 
 
@@ -226,7 +224,7 @@
 
                     <configuration>
                         <suiteXmlFiles>
-                            <!-- pass testng.xml files as argument from command line -->
+                            <!-- pass Parallel.xml files as argument from command line -->
                             <suiteXmlFile>src/test/resources/TestSuites/testng.xml</suiteXmlFile>
                             <suiteXmlFile>src/test/resources/TestSuites/default.xml</suiteXmlFile>
                         </suiteXmlFiles>

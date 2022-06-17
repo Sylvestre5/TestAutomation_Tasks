@@ -10,7 +10,6 @@ import java.util.Map;
 import static org.testng.Assert.fail;
 
 public class ExcelFileManager {
-
     private File spreadSheet;
     private Sheet currentSheet;
     private Map<String, Integer> columns;
@@ -20,7 +19,6 @@ public class ExcelFileManager {
         spreadSheet = file;
         columns = new HashMap<String, Integer>();
     }
-
 
     /**
      * Switch to your Sheet in case you have multiple sheets in your Excel file
@@ -40,7 +38,6 @@ public class ExcelFileManager {
             fail(e.getMessage());
         }
     }
-
 
     /**
      * Get the cell by Column and Row number from your Excel file
@@ -72,7 +69,6 @@ public class ExcelFileManager {
         return getCellData(column, 2);
     }
 
-
     /**
      * @param cell Enter the cell  of the Sheet
      */
@@ -85,6 +81,4 @@ public class ExcelFileManager {
             default -> "";
         };
     }
-
-
 }

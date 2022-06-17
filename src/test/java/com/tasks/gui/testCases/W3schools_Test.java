@@ -12,7 +12,7 @@ public class W3schools_Test {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     @BeforeMethod
-    public void setUpBeforeMethod() {
+    public void setUp_BeforeMethods() {
         driver.set(BrowserFactory.getBrowser());
 
     }
@@ -21,7 +21,6 @@ public class W3schools_Test {
     public void closeBrowser() {
         BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
-
 
     @Test
     public void task_007_verifyCountryInTable() {

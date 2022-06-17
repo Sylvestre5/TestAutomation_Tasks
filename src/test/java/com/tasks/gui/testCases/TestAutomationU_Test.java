@@ -23,8 +23,8 @@ public class TestAutomationU_Test {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     @BeforeMethod
-    public void setUp_BeforeMethod() {
-        driver.set( BrowserFactory.getBrowser());
+    public void setUp_BeforeMethods() {
+        driver.set(BrowserFactory.getBrowser());
     }
 
     @AfterMethod()
@@ -40,6 +40,7 @@ public class TestAutomationU_Test {
     @Issue("Bug_006")
     public void task_006_verifyCheckBoxes_checked() {
         int indexInCheckBoxes = 1;
+
         new TestAutomationU_Page(driver.get()).navigateTo_HomePage("checkboxes")
                 .selectCheckBox(indexInCheckBoxes);
         Assert.assertTrue(driver.get().findElement(TestAutomationU_Page.isCheckBoxes).isSelected());
@@ -54,6 +55,7 @@ public class TestAutomationU_Test {
     public void task_007_UploadedFile_inputField() throws InterruptedException {
         String imageName = "uploadPic.jpg";
         String imagePath = System.getProperty("user.dir") + "/src/test/resources/Uploads/" + imageName;
+
         new TestAutomationU_Page(driver.get()).navigateTo_HomePage("upload");
         new TestAutomationU_Page(driver.get())
                 .uploadFileBy_inputFile(imagePath)
@@ -68,7 +70,8 @@ public class TestAutomationU_Test {
     @Test
     public void task_007_UploadFile_WithRobot() throws InterruptedException, AWTException {
         String imageName = "uploadPic.jpg";
-        String imagePath = "C:\\Users\\ismail\\Automation Projects\\Projects - Ismail_Elshafeiy\\Practice_TestAutomation_SeleniumWebDriver\\src\\test\\resources\\Uploads\\" + imageName;
+        String imagePath = "C:\\Users\\ismail\\Automation Projects\\Projects - Ismail_Elshafeiy\\Practice_TestAutomation_SeleniumWebDriver\\src\\test\\resources\\uploads\\" + imageName;
+
         new TestAutomationU_Page(driver.get()).navigateTo_HomePage("upload");
         new TestAutomationU_Page(driver.get()).clickUpload_dragDropArea()
                 .uploadFileBy_robot(imagePath);
@@ -85,7 +88,7 @@ public class TestAutomationU_Test {
 
         ElementActions.dragAndDrop(driver.get(), source, target);
 
-       /* Assert.assertEquals("Dropped!", driver.findElement(target).getText());*/
+        /* Assert.assertEquals("Dropped!", driver.findElement(target).getText());*/
 
     }
 

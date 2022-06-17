@@ -18,7 +18,6 @@ public class BrowserActions {
         ACCEPT, DISMISS
     }
 
-
     @Step("Navigate to URL: [{url}]")
     public static void navigateToUrl(WebDriver driver, String url) {
         try {
@@ -27,20 +26,6 @@ public class BrowserActions {
         } catch (Exception e) {
             Logger.logStep(e.getMessage());
             fail(e.getMessage());
-        }
-    }
-
-    @Step("Close Browser Windows.....")
-    public static void closeAllOpenedBrowserWindows(WebDriver driver) {
-        Logger.logStep("[Browser Action] Close Browser Windows");
-        if (driver != null) {
-            try {
-                driver.quit();
-            } catch (WebDriverException rootCauseException) {
-                Logger.logMessage(rootCauseException.getMessage());
-            }
-        } else {
-            Logger.logMessage("Windows are already closed and the driver object is null.");
         }
     }
 
@@ -76,7 +61,7 @@ public class BrowserActions {
         }
     }
 
-    @Step("Confirm Alert: [{confirmAlerType}]")
+    @Step("Confirm Alert: [{confirmAlertType}]")
     public static void confirmAlert(WebDriver driver, ConfirmAlertType confirmAlerType) {
         Helper.getExplicitWait(driver).until(ExpectedConditions.alertIsPresent());
         Alert alert = driver.switchTo().alert();
@@ -86,6 +71,20 @@ public class BrowserActions {
                 Helper.getExplicitWait(driver).until(ExpectedConditions.alertIsPresent());
                 alert.dismiss();
             }
+        }
+    }
+
+    @Step("Close Browser Windows.....")
+    public static void closeAllOpenedBrowserWindows(WebDriver driver) {
+        Logger.logStep("[Browser Action] Close Browser Windows");
+        if (driver != null) {
+            try {
+                driver.quit();
+            } catch (WebDriverException rootCauseException) {
+                Logger.logMessage(rootCauseException.getMessage());
+            }
+        } else {
+            Logger.logMessage("Windows are already closed and the driver object is null.");
         }
     }
 

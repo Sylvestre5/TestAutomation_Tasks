@@ -31,18 +31,6 @@ public class BrowserFactory {
     private static final String host = Helper.getProperty(propertiesFileName, "remote.execution.host");
     private static final String port = Helper.getProperty(propertiesFileName, "remote.execution.port");
 
-    public enum BrowserType {
-        MOZILLA_FIREFOX("Mozilla Firefox"), GOOGLE_CHROME("Google Chrome"), FROM_PROPERTIES(browserTypeProperty);
-        private final String value;
-
-        BrowserType(String type) {
-            this.value = type;
-        }
-
-        private String getValue() {
-            return value;
-        }
-    }
 
     public enum ExecutionType {
         LOCAL("Local"), REMOTE("Remote"), LOCAL_HEADLESS("Local Headless"), FROM_PROPERTIES(executionTypeProperty);
@@ -70,6 +58,18 @@ public class BrowserFactory {
         }
     }
 
+    public enum BrowserType {
+        MOZILLA_FIREFOX("Mozilla Firefox"), GOOGLE_CHROME("Google Chrome"), FROM_PROPERTIES(browserTypeProperty);
+        private final String value;
+
+        BrowserType(String type) {
+            this.value = type;
+        }
+
+        private String getValue() {
+            return value;
+        }
+    }
 
     private static ChromeOptions getChromeOptions() {
         ChromeOptions chromeOptions =
@@ -87,20 +87,19 @@ public class BrowserFactory {
         return firefoxOptions;
     }
 
-
     /**
      * Check the Browser, Execution and Operating System from properties file
      *
      * @return BrowserType , ExecutionType
      */
     public static WebDriver getBrowser() {
-        return getBrowser(BrowserType.FROM_PROPERTIES, ExecutionType.FROM_PROPERTIES, OperatingSystemType.FROM_PROPERTIES);
+        return getBrowser(ExecutionType.FROM_PROPERTIES, OperatingSystemType.FROM_PROPERTIES, BrowserType.FROM_PROPERTIES);
     }
 
 
     // Check the Browser and Execution from property file
     @Step("Initializing a new Web GUI Browser!.....")
-    public static WebDriver getBrowser(BrowserType browserType, ExecutionType executionType, OperatingSystemType operatingSystemType) {
+    public static WebDriver getBrowser(ExecutionType executionType, OperatingSystemType operatingSystemType, BrowserType browserType) {
         ITestResult result = Reporter.getCurrentTestResult();
         ITestContext context = result.getTestContext();
         Logger.logStep("Initialize [" + browserType.getValue() + "] Browser and the Execution Type is [" + executionType.getValue() + "] " + "and the Operating System is [" + operatingSystemType.getValue() + "]");
@@ -109,7 +108,7 @@ public class BrowserFactory {
         /////////////////      Remote execution    /////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
 
-        // Remote execution condition
+        // Remote execution condition >>>>
         if (executionType == ExecutionType.REMOTE || (executionType == ExecutionType.FROM_PROPERTIES && executionTypeProperty.equalsIgnoreCase("remote"))) {
             // Check the browser typeProperty is Chrome >>>>
             if (browserType == BrowserType.GOOGLE_CHROME || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
@@ -195,7 +194,6 @@ public class BrowserFactory {
         /////////  Local execution condition   /////////////////////////
         ///////////////////////////////////////////////////////////////////////////////////////////
 
-
         else if (executionType == ExecutionType.LOCAL || (executionType == ExecutionType.FROM_PROPERTIES && executionTypeProperty.equalsIgnoreCase("local"))) {
             if (browserType == BrowserType.GOOGLE_CHROME
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
@@ -204,14 +202,12 @@ public class BrowserFactory {
                 context.setAttribute("driver", driver.get());
                 Helper.implicitWait(driver.get());
 
-
             } else if (browserType == BrowserType.MOZILLA_FIREFOX
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("mozilla firefox"))) {
                 WebDriverManager.firefoxdriver().setup();
                 driver.set(new FirefoxDriver());
                 context.setAttribute("driver", driver.get());
                 Helper.implicitWait(driver.get());
-
 
             } else {
                 String warningMsg = "The driver is null! because the browser type [" + browserTypeProperty + "] is not valid/supported; Please choose a valid browser type from the given choices in the properties file";
@@ -220,7 +216,6 @@ public class BrowserFactory {
             }
 
         }
-
 
         ///////////////////////////////////////////////////////////////////////////////////////////
         ///////////  Headless execution    /////////////////////////
@@ -242,7 +237,6 @@ public class BrowserFactory {
                 context.setAttribute("driver", driver.get());
                 Helper.implicitWait(driver.get());
 
-
             } else {
                 String warningMsg = "The driver is null! because the browser type [" + browserTypeProperty + "] is not valid/supported; Please choose a valid browser type from the given choices in the properties file";
                 Logger.logMessage(warningMsg);
@@ -253,10 +247,8 @@ public class BrowserFactory {
             String warningMsg = "The driver is null! because the execution type [" + executionTypeProperty + "] is not valid/supported; Please choose a valid execution type from the given choices in the properties file";
             Logger.logMessage(warningMsg);
             fail(warningMsg);
-
         }
         return driver.get();
     }
-
-
 }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -40,7 +40,7 @@ public class Google_Page {
         return By.xpath("//div/span[contains(text(),'" + searchQuery + "')]");
     }
 
-    private By inputOrdinalNumber_SearchList(int index) {
+    private By inputOrdinalNumber_SearchList(String index) {
         return By.xpath("//li[contains(@class,'sbct')][" + index + "]");
     }
 
@@ -92,13 +92,10 @@ public class Google_Page {
     }
 
     public static void takeFullPage_screenShot(WebDriver driver, String screenshotName) throws IOException {
-        String dateName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
         TakesScreenshot ts = (TakesScreenshot) driver;
         File source = ts.getScreenshotAs(OutputType.FILE);
-
         try {
-            String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName
-                    + ".png";
+            String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName + ".png";
             File finalDestination = new File(destination);
             FileUtils.copyFile(source, finalDestination);
 
@@ -118,19 +115,16 @@ public class Google_Page {
         BufferedImage actualImage = ImageIO.read(destination);
         System.out.println("image " + " [ " + expectedImage + " ] ");
         System.out.println("actualImage" + " [ " + actualImage + " ] ");
-
         ImageDiffer imageDiffer = new ImageDiffer();
 
         ImageDiff diff = imageDiffer.makeDiff(expectedImage, actualImage);
-        if (diff.hasDiff()) {
-            System.out.println("Images are different");
-        } else {
+        if (!diff.hasDiff()) {
             System.out.println("Images are same");
+        } else {
+            System.out.println("Images are different");
         }
 
-
     }
-
 
 /*    public void GooglePage takeScreenShootGooglePage() {
         String imgPath = "src/test/resources/testData/google_testData/getImage/actualImage";
@@ -168,7 +162,7 @@ public class Google_Page {
      * @return self reference
      */
 
-    public SearchResults_Page searchByTextAndIndex_fromList(String searchKeyword, int index) {
+    public SearchResults_Page searchByTextAndIndex_fromList(String searchKeyword, String index) {
         ElementActions.type(driver, search_textBx, searchKeyword);
         ElementActions.click(driver, inputOrdinalNumber_SearchList(index));
         return new SearchResults_Page(driver);

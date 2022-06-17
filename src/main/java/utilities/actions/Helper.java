@@ -8,7 +8,6 @@ import utilities.Logger;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.util.Date;
@@ -19,7 +18,8 @@ import static org.testng.Assert.fail;
 public class Helper {
     private static FileReader reader = null;
     private static final String propertiesRoot = "src/main/resources/";
-    private static Properties properties = new Properties();
+    private static final Properties properties = new Properties();
+    private static final int TIMEOUT = Integer.parseInt(Helper.getProperty("project.properties", "webdriver.wait"));
 
     /**
      * Get Properties
@@ -46,8 +46,6 @@ public class Helper {
         }
         return properties.getProperty(propertyName);
     }
-
-    private static final int TIMEOUT = Integer.parseInt(Helper.getProperty("project.properties", "webdriver.wait"));
 
     public static WebDriverWait getExplicitWait(WebDriver driver) {
         return new WebDriverWait(driver, Duration.ofSeconds(TIMEOUT));
@@ -112,9 +110,7 @@ public class Helper {
     public static String getCurrentTime(String dateFormat) {
         String currentTime = "";
         try {
-
-      currentTime = new SimpleDateFormat(dateFormat).format(new Date());
-
+            currentTime = new SimpleDateFormat(dateFormat).format(new Date());
         } catch (IllegalArgumentException e) {
             Logger.logStep(e.getMessage());
             fail(e.getMessage());
@@ -125,5 +121,4 @@ public class Helper {
     public static String getCurrentTime() {
         return getCurrentTime("ddMMyyyyHHmmss");
     }
-
 }

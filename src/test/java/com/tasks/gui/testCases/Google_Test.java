@@ -20,15 +20,14 @@ import java.io.IOException;
 
 
 public class Google_Test {
-    ;
+
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final ThreadLocal<JSONFileManager> jsonFileManager = new ThreadLocal<>();
 
     private final ThreadLocal<ExcelFileManager> excelFileManager = new ThreadLocal<>();
 
-
     @BeforeMethod
-    public void setUpBeforeMethod() {
+    public void setUp_BeforeMethods() {
         driver.set(BrowserFactory.getBrowser());
         jsonFileManager.set(new JSONFileManager(Helper
                 .getProperty("project.properties", "googleJson")));
@@ -41,6 +40,18 @@ public class Google_Test {
     @AfterMethod()
     public void closeBrowser() {
         BrowserActions.closeAllOpenedBrowserWindows(driver.get());
+    }
+
+    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://www.google.com/ncr")
+    @TmsLink("Tc")
+    @Issue("Bug")
+    public void task_search_getResultByText() {
+        String searchKeyword = "Selenium WebDriver";
+
+        new Google_Page(driver.get()).navigateTo_HomePage()
+                .searchByText(searchKeyword);
     }
 
     @Test
@@ -61,24 +72,11 @@ public class Google_Test {
     @TmsLink("Tc_002")
     @Issue("Bug_002")
     public void task_002_CheckGoogleLogo_isDisplayed() throws IOException {
+
         new Google_Page(driver.get()).navigateTo_HomePage()
                 .isGoogleLogoDisplayed();
         Google_Page.takeFullPage_screenShot(driver.get(), "FullPage_Screenshot");
         Google_Page.takeWebElement_screenshot("googleLogo");
-
-
-//        Assert.assertTrue(GooglePage.isGoogleLogoDisplayed());
-    }
-
-    @Test
-    @Severity(SeverityLevel.CRITICAL)
-    @Link("https://www.google.com/ncr")
-    @TmsLink("Tc")
-    @Issue("Bug")
-    public void task_search_getResultByText() {
-        String searchKeyword = "Selenium WebDriver";
-        new Google_Page(driver.get()).navigateTo_HomePage()
-                .searchByText(searchKeyword);
     }
 
     @Test
@@ -88,7 +86,7 @@ public class Google_Test {
     @Issue("Bug_003")
     public void task_003_search_getFirstResult() {
         String searchKeyword = jsonFileManager.get().getTestData("query");
-        int indexInList = Integer.parseInt(jsonFileManager.get().getTestData("indexList"));
+        String indexInList = jsonFileManager.get().getTestData("indexList");
         String indexInPage = jsonFileManager.get().getTestData("indexPage");
         String expectedResult_searchResult = jsonFileManager.get().getTestData("expectedResult_searchResult");
 
@@ -130,15 +128,14 @@ public class Google_Test {
         String indexInPage = excelFileManager.get().getCellData("indexInPage", 2);
         String expectedResult_searchResult = excelFileManager.get().getCellData("expectedResult_searchResult", 2);
 
-        String actualResult_currentUrl = new Google_Page(driver.get()).navigateTo_HomePage()
-                .searchByText(searchKeyword)
-                .navigateTo_cucumberSearchResult(indexInPage)
-                .getCurrentPage_Url();
+        String actualResult_currentUrl =
+                new Google_Page(driver.get()).navigateTo_HomePage()
+                        .searchByText(searchKeyword)
+                        .navigateTo_cucumberSearchResult(indexInPage)
+                        .getCurrentPage_Url();
         Assert.assertEquals(actualResult_currentUrl, expectedResult_searchResult);
         System.out.println("Actual Result: " + actualResult_currentUrl + " == " + "Expected Result: "
                 + expectedResult_searchResult);
-
-
     }
 
 
@@ -149,11 +146,11 @@ public class Google_Test {
     @Issue("Bug_006")
     public void task_007_verifyCountry() {
         String countryName = "Austria";
-        String actualResult_countryName = new W3school_Page(driver.get()).navigateTo_HomePage()
-                .getCountryName(countryName);
+        String actualResult_countryName =
+
+                new W3school_Page(driver.get()).navigateTo_HomePage()
+                        .getCountryName(countryName);
         Assert.assertTrue(actualResult_countryName.contains("Austria"));
-
-
     }
 
 }
