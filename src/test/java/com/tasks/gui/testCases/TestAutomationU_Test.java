@@ -27,7 +27,7 @@ public class TestAutomationU_Test {
     @Link("https://the-internet.herokuapp.com/checkboxes")
     @TmsLink("Tc_006")
     @Issue("Bug_006")
-    public void task_006_verifyCheckBoxes_checked() {
+    public void verifyCheckBoxes_checked() {
         int indexInCheckBoxes = 1;
 
         new TestAutomationU_Page(driver.get()).navigateTo_HomePage("checkboxes")
@@ -35,13 +35,12 @@ public class TestAutomationU_Test {
         Assert.assertTrue(driver.get().findElement(TestAutomationU_Page.isCheckBoxes).isSelected());
     }
 
-
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://the-internet.herokuapp.com/upload")
-    @TmsLink("Tc_006")
-    @Issue("Bug_006")
-    public void task_007_UploadedFile_inputField() throws InterruptedException {
+    @TmsLink("Tc_005")
+    @Issue("Bug_005")
+    public void uploadedFile_inputField() throws InterruptedException {
         String imageName = "uploadPic.jpg";
         String imagePath = System.getProperty("user.dir") + "/src/test/resources/Uploads/" + imageName;
 
@@ -55,9 +54,12 @@ public class TestAutomationU_Test {
         Assert.assertTrue((driver.get().findElement(uploadedFiles_text).isDisplayed()));
     }
 
-
     @Test
-    public void task_007_UploadFile_WithRobot() throws InterruptedException, AWTException {
+    @Severity(SeverityLevel.CRITICAL)
+    @Link("https://www.google.com/ncr")
+    @TmsLink("Tc_005")
+    @Issue("Bug_005")
+    public void uploadFile_WithRobot() throws InterruptedException, AWTException {
         String imageName = "uploadPic.jpg";
         String imagePath = "C:\\Users\\ismail\\Automation Projects\\Projects - Ismail_Elshafeiy\\Practice_TestAutomation_SeleniumWebDriver\\src\\test\\resources\\uploads\\" + imageName;
 
@@ -70,7 +72,7 @@ public class TestAutomationU_Test {
 
 
     @Test
-    public void task_009_DragAndDrop() {
+    public void DragAndDrop() {
         driver.get().get("https://jqueryui.com/resources/demos/droppable/default.html");
         By source = By.id("draggable");
         By target = By.id("droppable");

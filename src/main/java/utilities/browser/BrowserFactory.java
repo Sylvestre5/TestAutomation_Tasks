@@ -31,22 +31,18 @@ public class BrowserFactory {
     private static final String host = Helper.getProperty(propertiesFileName, "remote.execution.host");
     private static final String port = Helper.getProperty(propertiesFileName, "remote.execution.port");
 
-
     /**
      * Check the Browser, Execution and Operating System from properties file
      *
-     * @return BrowserType , ExecutionType
+     * @return  ExecutionType, Operating System, BrowserType
      */
     public static WebDriver getBrowser() {
         return getBrowser(ExecutionType.FROM_PROPERTIES, OperatingSystemType.FROM_PROPERTIES, BrowserType.FROM_PROPERTIES);
     }
 
-
     // Check the Browser and Execution from property file
     @Step("Initializing a new Web GUI Browser!.....")
     public static WebDriver getBrowser(ExecutionType executionType, OperatingSystemType operatingSystemType, BrowserType browserType) {
-        ITestResult result = Reporter.getCurrentTestResult();
-        ITestContext context = result.getTestContext();
         Logger.logStep("Initialize [" + browserType.getValue() + "] Browser and the Execution Type is [" + executionType.getValue() + "] " + "and the Operating System is [" + operatingSystemType.getValue() + "]");
 
         ///////////////////////////////////////////////////////////////////////////////////////////
@@ -59,29 +55,29 @@ public class BrowserFactory {
             if (browserType == BrowserType.GOOGLE_CHROME || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
                 try {
                     driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getChromeOptions()));
-                    context.setAttribute("driver", driver.get());
+                    BrowserActions.maximizeWindow(driver.get());
                     Helper.implicitWait(driver.get());
                 } catch (MalformedURLException e) {
                     Logger.logMessage("Invalid grid URL" + e.getMessage());
                     e.printStackTrace();
                 }
-
                 // Check the operating system type is Linux >>>>
                 if (operatingSystemType == OperatingSystemType.LINUX || (operatingSystemType == OperatingSystemType.FROM_PROPERTIES && operatingSystemTypeProperty.equalsIgnoreCase("Linux-64"))) {
                     try {
                         driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getChromeOptions()));
                         capabilities.setPlatform(Platform.LINUX);
+                        BrowserActions.maximizeWindow(driver.get());
                         Helper.implicitWait(driver.get());
                     } catch (MalformedURLException e) {
                         Logger.logMessage("Invalid grid URL" + e.getMessage());
                         e.printStackTrace();
                     }
-
                     // Check the operating system type is window >>>>
                 } else if (operatingSystemType == OperatingSystemType.WINDOWS || (operatingSystemType == OperatingSystemType.FROM_PROPERTIES && operatingSystemTypeProperty.equalsIgnoreCase("Windows-64"))) {
                     try {
                         driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getChromeOptions()));
                         capabilities.setPlatform(Platform.WINDOWS);
+                        BrowserActions.maximizeWindow(driver.get());
                         Helper.implicitWait(driver.get());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
@@ -91,13 +87,12 @@ public class BrowserFactory {
                     Logger.logMessage(warningMsg);
                     fail(warningMsg);
                 }
-
                 // Check the browser typeProperty is firefox  >>>>
             } else if (browserType == BrowserType.MOZILLA_FIREFOX
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("mozilla firefox"))) {
                 try {
                     driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getFirefoxOptions()));
-                    context.setAttribute("driver", driver.get());
+                    BrowserActions.maximizeWindow(driver.get());
                     Helper.implicitWait(driver.get());
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
@@ -108,6 +103,7 @@ public class BrowserFactory {
                     try {
                         driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getFirefoxOptions()));
                         capabilities.setPlatform(Platform.LINUX);
+                        BrowserActions.maximizeWindow(driver.get());
                         Helper.implicitWait(driver.get());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
@@ -117,6 +113,7 @@ public class BrowserFactory {
                     try {
                         driver.set(new RemoteWebDriver(new URL("http://" + host + ":" + port + "/wd/hub"), getFirefoxOptions()));
                         capabilities.setPlatform(Platform.WINDOWS);
+                        BrowserActions.maximizeWindow(driver.get());
                         Helper.implicitWait(driver.get());
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
@@ -144,14 +141,12 @@ public class BrowserFactory {
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
                 WebDriverManager.chromedriver().setup();
                 driver.set(new ChromeDriver());
-                context.setAttribute("driver", driver.get());
+                BrowserActions.maximizeWindow(driver.get());
                 Helper.implicitWait(driver.get());
-
             } else if (browserType == BrowserType.MOZILLA_FIREFOX
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("mozilla firefox"))) {
                 WebDriverManager.firefoxdriver().setup();
                 driver.set(new FirefoxDriver());
-                context.setAttribute("driver", driver.get());
                 Helper.implicitWait(driver.get());
 
             } else {
@@ -172,14 +167,14 @@ public class BrowserFactory {
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("google chrome"))) {
                 WebDriverManager.chromedriver().setup();
                 driver.set(new ChromeDriver(getChromeOptions()));
-                context.setAttribute("driver", driver.get());
+                BrowserActions.maximizeWindow(driver.get());
                 Helper.implicitWait(driver.get());
 
             } else if (browserType == BrowserType.MOZILLA_FIREFOX
                     || (browserType == BrowserType.FROM_PROPERTIES && browserTypeProperty.equalsIgnoreCase("mozilla firefox"))) {
                 WebDriverManager.firefoxdriver().setup();
                 driver.set(new FirefoxDriver(getFirefoxOptions()));
-                context.setAttribute("driver", driver.get());
+                BrowserActions.maximizeWindow(driver.get());
                 Helper.implicitWait(driver.get());
 
             } else {
@@ -239,16 +234,14 @@ public class BrowserFactory {
     }
 
     private static ChromeOptions getChromeOptions() {
-        ChromeOptions chromeOptions =
-                new ChromeOptions();
+        ChromeOptions chromeOptions = new ChromeOptions();
         chromeOptions.setHeadless(true);
         chromeOptions.addArguments("--window-size=1920,1080");
         return chromeOptions;
     }
 
     private static FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions firefoxOptions
-                = new FirefoxOptions();
+        FirefoxOptions firefoxOptions = new FirefoxOptions();
         firefoxOptions.setHeadless(true);
         firefoxOptions.addArguments("--window-size=1920,1080");
         return firefoxOptions;

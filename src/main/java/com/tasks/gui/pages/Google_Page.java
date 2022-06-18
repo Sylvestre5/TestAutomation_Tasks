@@ -34,8 +34,8 @@ public class Google_Page {
     public static By googleLogo_image = By.xpath("//img[@alt='Google']");
     private static final By search_textBx = By.xpath("//input[@name='q']");
 
-    private By inputSearchKeyWord(String searchQuery) {
-        return By.xpath("//div/span[contains(text(),'" + searchQuery + "')]");
+    public static By findByTextAndIndexList(String searchKeyword, int index) {
+        return By.xpath("(//ul[@class='G43f7e']//div/span[contains(text(),'" + searchKeyword + "')])[" + 2 + "]");
     }
 
     private By inputOrdinalNumber_SearchList(String index) {
@@ -52,8 +52,6 @@ public class Google_Page {
     @Step("Navigate to Home Page")
     public Google_Page navigateTo_HomePage() {
         BrowserActions.navigateToUrl(driver, googleUrl);
-
-
         return this;
     }
 
@@ -82,31 +80,21 @@ public class Google_Page {
      *
      * @return self reference
      */
-    @Step("Check logo is displayed")
-    public boolean isGoogleLogoDisplayed() {
+    @Step("Check logo is displayed?")
+    public static boolean isGoogleLogoDisplayed(String logoName) throws IOException {
         String imgPath = System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/getImage/actualImage/" + "googleTest.png";
         Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save(imgPath);
+        takeWebElement_screenshot(logoName);
         return driver.findElement(googleLogo_image).isDisplayed();
     }
 
-    public static void takeFullPage_screenShot(WebDriver driver, String screenshotName) throws IOException {
-        TakesScreenshot ts = (TakesScreenshot) driver;
-        File source = ts.getScreenshotAs(OutputType.FILE);
-        try {
-            String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName + ".png";
-            File finalDestination = new File(destination);
-            FileUtils.copyFile(source, finalDestination);
-
-        } catch (Exception e) {
-            System.out.println("Exception while taking screenshot: " + e.getMessage());
-        }
-    }
 
     public static void takeWebElement_screenshot(String screenshotName) throws IOException {
         WebElement element = driver.findElement(googleLogo_image);
         File source = element.getScreenshotAs(OutputType.FILE);
         File destination = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/actualImage/" + screenshotName + ".png");
         FileHandler.copy(source, destination);
+
         File image = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/expectedImage/expectedGoogleLogo.png");
 
         BufferedImage expectedImage = ImageIO.read(image);
@@ -121,24 +109,7 @@ public class Google_Page {
         } else {
             System.out.println("Images are different");
         }
-
     }
-
-/*    public void GooglePage takeScreenShootGooglePage() {
-        String imgPath = "src/test/resources/testData/google_testData/getImage/actualImage";
-        File tes = new File(Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save(imgPath));
-        Files.move(imgPath, new File("resources/screenshots/test.png"));
-        Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save(imgPath);
-
-
-    }*/
-//
-//    public GooglePage takeScreenShootElementLogo() {
-//        Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save("src/test/resources/testData/google_testData/getImage");
-//        return this;
-//
-//    }
-
 
     /**
      * search By text
@@ -147,23 +118,43 @@ public class Google_Page {
      * @return self reference
      */
 
-    public SearchResults_Page searchByText(String searchKeyWord) {
+    public SearchResults_Page searchByTextAndIndexList(String searchKeyWord) {
         ElementActions.type(driver, search_textBx, searchKeyWord);
         ElementActions.clickKeyboardKey(driver, search_textBx, Keys.ENTER);
         return new SearchResults_Page(driver);
     }
 
     /**
-     * Search By text and index in a search list
+     * Search By text and indexList in a search list
      *
-     * @param searchKeyword *, @param index*
+     * @param searchKeyword *, @param indexList*
      * @return self reference
      */
 
-    public SearchResults_Page searchByTextAndIndex_fromList(String searchKeyword, String index) {
+    public SearchResults_Page searchByTextAndIndexList(String searchKeyword, String indexList) {
         ElementActions.type(driver, search_textBx, searchKeyword);
-        ElementActions.click(driver, inputOrdinalNumber_SearchList(index));
+        ElementActions.click(driver, inputOrdinalNumber_SearchList(indexList));
         return new SearchResults_Page(driver);
+    }
+
+    public SearchResults_Page searchByTestAndIndexList_autoSuggest(String searchKeyword, int indexList) {
+        ElementActions.type(driver, search_textBx, searchKeyword);
+        ElementActions.click(driver,findByTextAndIndexList(searchKeyword, indexList));
+        return new SearchResults_Page(driver);
+    }
+
+
+    public static void takeFullPage_screenShot(WebDriver driver, String screenshotName) throws IOException {
+        TakesScreenshot ts = (TakesScreenshot) driver;
+        File source = ts.getScreenshotAs(OutputType.FILE);
+        try {
+            String destination = System.getProperty("user.dir") + "/src/test/resources/TestsScreenshots/" + screenshotName + ".png";
+            File finalDestination = new File(destination);
+            FileUtils.copyFile(source, finalDestination);
+
+        } catch (Exception e) {
+            System.out.println("Exception while taking screenshot: " + e.getMessage());
+        }
     }
 
 }

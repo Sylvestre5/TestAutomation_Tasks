@@ -23,9 +23,7 @@ public class Google_Test {
 
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final ThreadLocal<JSONFileManager> jsonFileManager = new ThreadLocal<>();
-
     private final ThreadLocal<ExcelFileManager> excelFileManager = new ThreadLocal<>();
-
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
@@ -36,26 +34,15 @@ public class Google_Test {
         String searchKeyword = "Selenium WebDriver";
 
         new Google_Page(driver.get()).navigateTo_HomePage()
-                .searchByText(searchKeyword);
+                .searchByTextAndIndexList(searchKeyword);
     }
 
-    @Test
-    public void verifySearchResults() {
-        new Google_Page(driver.get()).navigateTo_HomePage()
-                .searchByText("Selenium WebDriver");
-        By searchResult_txt = By.xpath("//div[@id='result-stats']");
-        var getSearchResults = driver.get().findElement(searchResult_txt).getText();
-        System.out.println("Search results --> " + getSearchResults);
-        Assert.assertNotEquals(getSearchResults, "");
-    }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_001")
     public void checkPageTitle() {
-
-        driver.set(BrowserFactory.getBrowser(BrowserFactory.ExecutionType.LOCAL, BrowserFactory.OperatingSystemType.WINDOWS, BrowserFactory.BrowserType.MOZILLA_FIREFOX));
         String expectedResult_pageTitle = "Google";
 
         new Google_Page(driver.get()).navigateTo_HomePage();
@@ -64,19 +51,18 @@ public class Google_Test {
         Assert.assertEquals(Google_Page.getTitle_Page(), expectedResult_pageTitle);
     }
 
-    @Test(dependsOnMethods = "checkPageTitle")
+    @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_002")
     public void checkGoogleLogoIsDisplayed() throws IOException {
 
         new Google_Page(driver.get()).navigateTo_HomePage()
-                .isGoogleLogoDisplayed();
-        Google_Page.takeFullPage_screenShot(driver.get(), "FullPage_Screenshot");
-        Google_Page.takeWebElement_screenshot("googleLogo");
+                .takeFullPage_screenShot(driver.get(), "FullPage_Screenshot" + Helper.getCurrentTime("dd/MM/yyyy-HH:mm:ss"));
+        Assert.assertTrue(Google_Page.isGoogleLogoDisplayed("googleLogo"));
     }
 
-    @Test (dependsOnMethods = "checkGoogleLogoIsDisplayed")
+    @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_003")
@@ -87,45 +73,48 @@ public class Google_Test {
         String expectedResult_searchResult = jsonFileManager.get().getTestData("expectedResult_searchResult");
 
         new Google_Page(driver.get()).navigateTo_HomePage()
-                .searchByTextAndIndex_fromList(searchKeyword, indexInList);
-        String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
+                .searchByTextAndIndexList(searchKeyword, indexInList);
+        String actualResult_searchResult =
+                SearchResults_Page.getTextSearchResults(indexInPage);
 
         Assert.assertEquals(actualResult_searchResult, expectedResult_searchResult);
         System.out.println("Actual Result: " + actualResult_searchResult + " == " + "Expected Result: "
                 + expectedResult_searchResult);
     }
 
-    @Test(dependsOnMethods = "searchAndGetFirstResult")
+    @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_004")
     @Issue("Bug_004")
-    public void searchAndGetFourthResult() {
+    public void searchForFourthResult() {
+        // driver.set(BrowserFactory.getBrowser(BrowserFactory.ExecutionType.LOCAL, BrowserFactory.OperatingSystemType.WINDOWS, BrowserFactory.BrowserType.MOZILLA_FIREFOX));
         String searchKeyword = "TestNG";
         String indexInPage = "4";
         String expectedResult_searchResult = "TestNG Tutorial";
 
         new Google_Page(driver.get()).navigateTo_HomePage()
-                .searchByText(searchKeyword);
-        String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
+                .searchByTextAndIndexList(searchKeyword);
+        String actualResult_searchResult =
+                SearchResults_Page.getTextSearchResults(indexInPage);
         Assert.assertEquals(actualResult_searchResult, expectedResult_searchResult);
         System.out.println("Actual Result: " + actualResult_searchResult + " == " + "Expected Result: "
                 + expectedResult_searchResult);
     }
 
-    @Test(dependsOnMethods = "searchAndGetFourthResult")
+    @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_005")
     @Issue("Bug_005")
-    public void searchAndOpenSecondResult() {
+    public void searchForSecondResultAndOpen() {
         String searchKeyword = excelFileManager.get().getCellData("query", 2);
         String indexInPage = excelFileManager.get().getCellData("indexInPage", 2);
         String expectedResult_searchResult = excelFileManager.get().getCellData("expectedResult_searchResult", 2);
 
         String actualResult_currentUrl =
                 new Google_Page(driver.get()).navigateTo_HomePage()
-                        .searchByText(searchKeyword)
+                        .searchByTextAndIndexList(searchKeyword)
                         .navigateTo_cucumberSearchResult(indexInPage)
                         .getCurrentPage_Url();
         Assert.assertEquals(actualResult_currentUrl, expectedResult_searchResult);
@@ -134,7 +123,7 @@ public class Google_Test {
     }
 
 
-    @Test (dependsOnMethods = "searchAndOpenSecondResult")
+    @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://the-internet.herokuapp.com/checkboxes")
     @TmsLink("Tc_006")
@@ -148,10 +137,28 @@ public class Google_Test {
         Assert.assertTrue(actualResult_countryName.contains("Austria"));
     }
 
+    @Test
+    public void verifySearchResults() {
+        new Google_Page(driver.get()).navigateTo_HomePage()
+                .searchByTextAndIndexList("Selenium WebDriver");
+        By searchResult_txt = By.xpath("//div[@id='result-stats']");
+        var getSearchResults = driver.get().findElement(searchResult_txt).getText();
+        System.out.println("Search results --> " + getSearchResults);
+        Assert.assertNotEquals(getSearchResults, "");
+    }
+    @Test(enabled = false)
+    public void searchBy_text_and_index_list() {
+        String searchKeyword = "Selenium";
+        int indexInList = 2;
+        new Google_Page(driver.get()).navigateTo_HomePage()
+                .searchByTestAndIndexList_autoSuggest(searchKeyword, indexInList);
+
+    }
+
+
     @BeforeMethod
     public void setUp_BeforeMethods() {
         driver.set(BrowserFactory.getBrowser());
-
         jsonFileManager.set(new JSONFileManager(Helper
                 .getProperty("project.properties", "googleJson")));
         excelFileManager.set(new ExcelFileManager(new File(Helper
@@ -160,9 +167,10 @@ public class Google_Test {
 
     }
 
-    @AfterMethod()
+    @AfterMethod(enabled = false)
     public void closeBrowser() {
         BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
+
 
 }
