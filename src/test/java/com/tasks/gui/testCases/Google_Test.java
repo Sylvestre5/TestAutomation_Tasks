@@ -19,7 +19,6 @@ import utilities.dataDriven.JSONFileManager;
 import java.io.File;
 import java.io.IOException;
 
-
 public class Google_Test {
 
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
@@ -42,7 +41,8 @@ public class Google_Test {
 
     @Test
     public void verifySearchResults() {
-        new Google_Page(driver.get()).navigateTo_HomePage().searchByText("Selenium WebDriver");
+        new Google_Page(driver.get()).navigateTo_HomePage()
+                .searchByText("Selenium WebDriver");
         By searchResult_txt = By.xpath("//div[@id='result-stats']");
         var getSearchResults = driver.get().findElement(searchResult_txt).getText();
         System.out.println("Search results --> " + getSearchResults);
@@ -53,7 +53,6 @@ public class Google_Test {
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_001")
-    @Issue("Bug_002")
     public void checkPageTitle() {
 
         driver.set(BrowserFactory.getBrowser(BrowserFactory.ExecutionType.LOCAL, BrowserFactory.OperatingSystemType.WINDOWS, BrowserFactory.BrowserType.MOZILLA_FIREFOX));
@@ -65,11 +64,10 @@ public class Google_Test {
         Assert.assertEquals(Google_Page.getTitle_Page(), expectedResult_pageTitle);
     }
 
-    @Test
+    @Test(dependsOnMethods = "checkPageTitle")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_002")
-    @Issue("Bug_002")
     public void checkGoogleLogoIsDisplayed() throws IOException {
 
         new Google_Page(driver.get()).navigateTo_HomePage()
@@ -78,12 +76,11 @@ public class Google_Test {
         Google_Page.takeWebElement_screenshot("googleLogo");
     }
 
-    @Test
+    @Test (dependsOnMethods = "checkGoogleLogoIsDisplayed")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_003")
-    @Issue("Bug_003")
-    public void task_003_search_getFirstResult() {
+    public void searchAndGetFirstResult() {
         String searchKeyword = jsonFileManager.get().getTestData("query");
         String indexInList = jsonFileManager.get().getTestData("indexList");
         String indexInPage = jsonFileManager.get().getTestData("indexPage");
@@ -98,12 +95,12 @@ public class Google_Test {
                 + expectedResult_searchResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = "searchAndGetFirstResult")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_004")
     @Issue("Bug_004")
-    public void task_004_search_getFourthResult() {
+    public void searchAndGetFourthResult() {
         String searchKeyword = "TestNG";
         String indexInPage = "4";
         String expectedResult_searchResult = "TestNG Tutorial";
@@ -116,12 +113,12 @@ public class Google_Test {
                 + expectedResult_searchResult);
     }
 
-    @Test
+    @Test(dependsOnMethods = "searchAndGetFourthResult")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_005")
     @Issue("Bug_005")
-    public void task_005_search_openSecondResult() {
+    public void searchAndOpenSecondResult() {
         String searchKeyword = excelFileManager.get().getCellData("query", 2);
         String indexInPage = excelFileManager.get().getCellData("indexInPage", 2);
         String expectedResult_searchResult = excelFileManager.get().getCellData("expectedResult_searchResult", 2);
@@ -137,12 +134,12 @@ public class Google_Test {
     }
 
 
-    @Test
+    @Test (dependsOnMethods = "searchAndOpenSecondResult")
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://the-internet.herokuapp.com/checkboxes")
     @TmsLink("Tc_006")
     @Issue("Bug_006")
-    public void task_007_verifyCountry() {
+    public void verifyCountryIsEqual() {
         String countryName = "Austria";
 
         String actualResult_countryName =
