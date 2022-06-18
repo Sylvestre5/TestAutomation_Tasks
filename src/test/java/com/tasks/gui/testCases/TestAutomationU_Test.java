@@ -22,17 +22,6 @@ public class TestAutomationU_Test {
 
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-    @BeforeMethod
-    public void setUp_BeforeMethods() {
-        driver.set(BrowserFactory.getBrowser());
-    }
-
-    @AfterMethod()
-    public void closeBrowser() {
-        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
-    }
-
-
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://the-internet.herokuapp.com/checkboxes")
@@ -92,4 +81,13 @@ public class TestAutomationU_Test {
 
     }
 
+    @BeforeMethod
+    public void setUp_BeforeMethods() {
+        driver.set(BrowserFactory.getBrowser());
+    }
+
+    @AfterMethod()
+    public void closeBrowser() {
+        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
+    }
 }

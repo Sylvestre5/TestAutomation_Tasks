@@ -224,9 +224,9 @@
 
                     <configuration>
                         <suiteXmlFiles>
-                            <!-- pass Parallel.xml files as argument from command line -->
-                            <suiteXmlFile>src/test/resources/TestSuites/testng.xml</suiteXmlFile>
-                            <suiteXmlFile>src/test/resources/TestSuites/default.xml</suiteXmlFile>
+
+                            <suiteXmlFile>src/test/resources/TestSuites/parallel.xml</suiteXmlFile>
+<!--                            <suiteXmlFile>src/test/resources/TestSuites/test.xml</suiteXmlFile>-->
                         </suiteXmlFiles>
 
                         <properties>
@@ -244,6 +244,4 @@
             </plugins>
         </pluginManagement>
     </build>
-
-
 </project>

@@ -62,8 +62,7 @@ public class ElementActions {
     public static void clickKeyboardKey(WebDriver driver, By elementLocator, Keys key) {
         Helper.locatingElementStrategy(driver, elementLocator);
         try {
-            Logger.logStep(
-                    "[Element Action] Click a Keyboard key [" + key.name() + "] on element [" + elementLocator + "]");
+            Logger.logStep("[Element Action] Click a Keyboard key [" + key.name() + "] on element [" + elementLocator + "]");
             driver.findElement(elementLocator).sendKeys(key);
         } catch (Exception e) {
             Logger.logStep(e.getMessage());
@@ -90,8 +89,15 @@ public class ElementActions {
         doubleClick(driver, elementLocator);
         return this;
     }
-
-    // @Step("Type data: [{data}] on element: [{elementLocator}]")
+    /**
+     * Handle the elements by wait, isVisible, Scroll, isDisplayed, print and catch
+     * exception
+     *
+     * @param driver*
+     * @param elementLocator*
+     * @param text*
+     * @param clearBeforeTyping ?  b
+     */
     public static void type(WebDriver driver, By elementLocator, String text, boolean clearBeforeTyping) {
         Helper.locatingElementStrategy(driver, elementLocator);
         try {
@@ -99,7 +105,6 @@ public class ElementActions {
                 Logger.logStep("[Element Action] Clear and Type [" + text + "] on element [" + elementLocator + "]");
                 driver.findElement(elementLocator).clear();
                 driver.findElement(elementLocator).sendKeys(text);
-
                 if (!driver.findElement(elementLocator).getAttribute("value").equals(text)) {
                     ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('value', '" + text + "')",
                             driver.findElement(elementLocator));

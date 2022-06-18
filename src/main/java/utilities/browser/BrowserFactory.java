@@ -32,61 +32,6 @@ public class BrowserFactory {
     private static final String port = Helper.getProperty(propertiesFileName, "remote.execution.port");
 
 
-    public enum ExecutionType {
-        LOCAL("Local"), REMOTE("Remote"), LOCAL_HEADLESS("Local Headless"), FROM_PROPERTIES(executionTypeProperty);
-        private final String value;
-
-        ExecutionType(String type) {
-            this.value = type;
-        }
-
-        private String getValue() {
-            return value;
-        }
-    }
-
-    public enum OperatingSystemType {
-        WINDOWS("Windows-64"), LINUX("Linux-64"), FROM_PROPERTIES(operatingSystemTypeProperty);
-        private final String value;
-
-        OperatingSystemType(String type) {
-            this.value = type;
-        }
-
-        private String getValue() {
-            return value;
-        }
-    }
-
-    public enum BrowserType {
-        MOZILLA_FIREFOX("Mozilla Firefox"), GOOGLE_CHROME("Google Chrome"), FROM_PROPERTIES(browserTypeProperty);
-        private final String value;
-
-        BrowserType(String type) {
-            this.value = type;
-        }
-
-        private String getValue() {
-            return value;
-        }
-    }
-
-    private static ChromeOptions getChromeOptions() {
-        ChromeOptions chromeOptions =
-                new ChromeOptions();
-        chromeOptions.setHeadless(true);
-        chromeOptions.addArguments("--window-size=1920,1080");
-        return chromeOptions;
-    }
-
-    private static FirefoxOptions getFirefoxOptions() {
-        FirefoxOptions firefoxOptions
-                = new FirefoxOptions();
-        firefoxOptions.setHeadless(true);
-        firefoxOptions.addArguments("--window-size=1920,1080");
-        return firefoxOptions;
-    }
-
     /**
      * Check the Browser, Execution and Operating System from properties file
      *
@@ -250,5 +195,64 @@ public class BrowserFactory {
         }
         return driver.get();
     }
-}
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+    public enum ExecutionType {
+        LOCAL("Local"), REMOTE("Remote"), LOCAL_HEADLESS("Local Headless"), FROM_PROPERTIES(executionTypeProperty);
+        private final String value;
+
+        ExecutionType(String type) {
+            this.value = type;
+        }
+
+        private String getValue() {
+            return value;
+        }
+    }
+
+    public enum OperatingSystemType {
+        WINDOWS("Windows-64"), LINUX("Linux-64"), FROM_PROPERTIES(operatingSystemTypeProperty);
+        private final String value;
+
+        OperatingSystemType(String type) {
+            this.value = type;
+        }
+
+        private String getValue() {
+            return value;
+        }
+    }
+
+    public enum BrowserType {
+        MOZILLA_FIREFOX("Mozilla Firefox"), GOOGLE_CHROME("Google Chrome"), FROM_PROPERTIES(browserTypeProperty);
+        private final String value;
+
+        BrowserType(String type) {
+            this.value = type;
+        }
+
+        private String getValue() {
+            return value;
+        }
+    }
+
+    private static ChromeOptions getChromeOptions() {
+        ChromeOptions chromeOptions =
+                new ChromeOptions();
+        chromeOptions.setHeadless(true);
+        chromeOptions.addArguments("--window-size=1920,1080");
+        return chromeOptions;
+    }
+
+    private static FirefoxOptions getFirefoxOptions() {
+        FirefoxOptions firefoxOptions
+                = new FirefoxOptions();
+        firefoxOptions.setHeadless(true);
+        firefoxOptions.addArguments("--window-size=1920,1080");
+        return firefoxOptions;
+    }
+}
+
+

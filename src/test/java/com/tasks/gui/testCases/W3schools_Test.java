@@ -11,6 +11,12 @@ import utilities.browser.BrowserFactory;
 public class W3schools_Test {
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
+    @Test
+    public void task_007_verifyCountryInTable() {
+        new W3school_Page(driver.get()).navigateTo_HomePage()
+                .getCountryName("Austria");
+    }
+
     @BeforeMethod
     public void setUp_BeforeMethods() {
         driver.set(BrowserFactory.getBrowser());
@@ -21,12 +27,4 @@ public class W3schools_Test {
     public void closeBrowser() {
         BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
-
-    @Test
-    public void task_007_verifyCountryInTable() {
-        new W3school_Page(driver.get()).navigateTo_HomePage()
-                .getCountryName("Austria");
-    }
-
-
 }

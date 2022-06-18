@@ -4,6 +4,7 @@ import com.tasks.gui.pages.Google_Page;
 import com.tasks.gui.pages.SearchResults_Page;
 import com.tasks.gui.pages.W3school_Page;
 import io.qameta.allure.*;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
@@ -26,28 +27,13 @@ public class Google_Test {
 
     private final ThreadLocal<ExcelFileManager> excelFileManager = new ThreadLocal<>();
 
-    @BeforeMethod
-    public void setUp_BeforeMethods() {
-        driver.set(BrowserFactory.getBrowser());
-        jsonFileManager.set(new JSONFileManager(Helper
-                .getProperty("project.properties", "googleJson")));
-        excelFileManager.set(new ExcelFileManager(new File(Helper
-                .getProperty("project.properties", "googleExcel"))));
-        excelFileManager.get().switchToSheet("google");
-
-    }
-
-    @AfterMethod()
-    public void closeBrowser() {
-        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
-    }
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc")
     @Issue("Bug")
-    public void task_search_getResultByText() {
+    public void SearchAndGetResultByText() {
         String searchKeyword = "Selenium WebDriver";
 
         new Google_Page(driver.get()).navigateTo_HomePage()
@@ -55,15 +41,28 @@ public class Google_Test {
     }
 
     @Test
+    public void verifySearchResults() {
+        new Google_Page(driver.get()).navigateTo_HomePage().searchByText("Selenium WebDriver");
+        By searchResult_txt = By.xpath("//div[@id='result-stats']");
+        var getSearchResults = driver.get().findElement(searchResult_txt).getText();
+        System.out.println("Search results --> " + getSearchResults);
+        Assert.assertNotEquals(getSearchResults, "");
+    }
+
+    @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_001")
     @Issue("Bug_002")
-    public void task_001_CheckPageTitle() {
+    public void checkPageTitle() {
+
+        driver.set(BrowserFactory.getBrowser(BrowserFactory.ExecutionType.LOCAL, BrowserFactory.OperatingSystemType.WINDOWS, BrowserFactory.BrowserType.MOZILLA_FIREFOX));
         String expectedResult_pageTitle = "Google";
+
         new Google_Page(driver.get()).navigateTo_HomePage();
         Google_Page.getCurrentPage_Url();
-        Assert.assertTrue(Google_Page.getTitle_Page().contains(expectedResult_pageTitle));
+        Assert.assertTrue(Google_Page.getTitle_Page().equals(expectedResult_pageTitle));
+        Assert.assertEquals(Google_Page.getTitle_Page(), expectedResult_pageTitle);
     }
 
     @Test
@@ -71,7 +70,7 @@ public class Google_Test {
     @Link("https://www.google.com/ncr")
     @TmsLink("Tc_002")
     @Issue("Bug_002")
-    public void task_002_CheckGoogleLogo_isDisplayed() throws IOException {
+    public void checkGoogleLogoIsDisplayed() throws IOException {
 
         new Google_Page(driver.get()).navigateTo_HomePage()
                 .isGoogleLogoDisplayed();
@@ -112,7 +111,6 @@ public class Google_Test {
         new Google_Page(driver.get()).navigateTo_HomePage()
                 .searchByText(searchKeyword);
         String actualResult_searchResult = SearchResults_Page.getTextSearchResults(indexInPage);
-
         Assert.assertEquals(actualResult_searchResult, expectedResult_searchResult);
         System.out.println("Actual Result: " + actualResult_searchResult + " == " + "Expected Result: "
                 + expectedResult_searchResult);
@@ -146,11 +144,28 @@ public class Google_Test {
     @Issue("Bug_006")
     public void task_007_verifyCountry() {
         String countryName = "Austria";
-        String actualResult_countryName =
 
+        String actualResult_countryName =
                 new W3school_Page(driver.get()).navigateTo_HomePage()
                         .getCountryName(countryName);
         Assert.assertTrue(actualResult_countryName.contains("Austria"));
+    }
+
+    @BeforeMethod
+    public void setUp_BeforeMethods() {
+        driver.set(BrowserFactory.getBrowser());
+
+        jsonFileManager.set(new JSONFileManager(Helper
+                .getProperty("project.properties", "googleJson")));
+        excelFileManager.set(new ExcelFileManager(new File(Helper
+                .getProperty("project.properties", "googleExcel"))));
+        excelFileManager.get().switchToSheet("google");
+
+    }
+
+    @AfterMethod()
+    public void closeBrowser() {
+        BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }
 
 }

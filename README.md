@@ -24,7 +24,7 @@
 * Execute All testSuites using Command-line opening a command-line terminal on the project root path and
   type `mvn clean test`
 * Execute specific test Suite using Command-line opening a command-line terminal on the project root path and
-  type`mvn clean test -DsuiteXmlFile=yourSuite.xml`
+  type`mvn clean test -DsuiteXmlFile=yourSuite*.xml`
 * After executing, Generate the ***Allure Report*** by opening a command-line terminal on the project root path and
   type `mvn allure:serve`
 * Find the Extent Report [ExtentReports.html](ExtentReports.html) in the project root path for the latest execution and open by any browser
