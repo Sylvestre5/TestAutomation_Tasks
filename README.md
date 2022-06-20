@@ -9,8 +9,9 @@
 ## Project Design:
 
 * Page Object Model (POM) design pattern
-* Data Driven 
 * Fluent design approach
+* Data Driven 
+
 
 ## Pre-requests:
 
