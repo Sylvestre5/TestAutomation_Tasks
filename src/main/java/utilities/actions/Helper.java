@@ -82,29 +82,6 @@ public class Helper {
             fail(e.getMessage());
         }
     }
-/*
-
-    protected static void locatingElementStrategy(WebDriver driver, WebElement elementLocator) {
-        try {
-            // Wait for the element to be visible
-            Helper.getExplicitWait(driver).until(ExpectedConditions.visibilityOfElementLocated((By) elementLocator));
-            // Scroll the element into view to handle some browsers cases
-            ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(false);",
-                    elementLocator);
-
-            if (!elementLocator.isDisplayed()) {
-                Logger.logStep("The element [" + elementLocator.toString() + "] is not Displayed");
-                fail("The element [" + elementLocator.toString() + "] is not Displayed");
-            }
-        } catch (TimeoutException toe) {
-            Logger.logStep(toe.getMessage());
-            fail(toe.getMessage());
-        } catch (Exception e) {
-            Logger.logStep(e.getMessage());
-            fail(e.getMessage());
-        }
-    }
-*/
 
 
     public static String getCurrentTime(String dateFormat) {

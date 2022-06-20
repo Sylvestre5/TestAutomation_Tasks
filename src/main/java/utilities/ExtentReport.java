@@ -9,75 +9,66 @@ import com.aventstack.extentreports.reporter.configuration.Theme;
 
 public class ExtentReport {
 
-    private static ExtentReports report;
-    private static ExtentTest test;
+    private static ExtentReports extentReports;
+    private static ExtentTest extentTest;
 
     public static void initReports() {
-	report = new ExtentReports();
-	ExtentSparkReporter spark = new ExtentSparkReporter("ExtentReports.html");
-	report.attachReporter(spark);
-	spark.config().setTheme(Theme.STANDARD);
-	spark.config().setDocumentTitle("Extent Report");
-	spark.config().setReportName("Test Automation-Extent Report");
+        extentReports = new ExtentReports();
+        ExtentSparkReporter spark = new ExtentSparkReporter("ExtentReports.html");
+        extentReports.attachReporter(spark);
+        spark.config().setTheme(Theme.DARK);
+        spark.config().setDocumentTitle("Extent Report");
+        spark.config().setReportName("Test Automation-Extent Report");
 
     }
 
-    public static void createTest(String testcasename) {
-	test = report.createTest(testcasename);
+    public static void createTest(String testCaseName) {
+        extentTest = extentReports.createTest(testCaseName);
     }
 
-    public static void removeTest(String testcasename) {
-	report.removeTest(testcasename);
+    public static void removeTest(String testCaseName) {
+        extentReports.removeTest(testCaseName);
     }
 
     public static void info(String message) {
-	if (test != null) {
-	    test.info(message);
-	}
+        if (extentTest != null) {
+            extentTest.info(message);
+        }
     }
 
     public static void info(Markup m) {
-	test.info(m);
+        extentTest.info(m);
     }
 
+
     public static void pass(String message) {
-	test.pass(message);
+        extentTest.pass(message);
     }
 
     public static void pass(Markup m) {
-	test.pass(m);
+        extentTest.pass(m);
     }
 
+
     public static void fail(String message) {
-	test.fail(message);
+        extentTest.fail(message);
     }
 
     public static void fail(Markup m) {
-	test.fail(m);
+        extentTest.fail(m);
     }
 
     public static void fail(Throwable t) {
-	test.fail(t);
+        extentTest.fail(t);
     }
 
     public static void fail(Media media) {
-	test.fail(media);
+        extentTest.fail(media);
     }
 
-    public static void skip(String message) {
-	test.skip(message);
-    }
-
-    public static void skip(Markup m) {
-	test.skip(m);
-    }
-
-    public static void skip(Throwable t) {
-	test.skip(t);
-    }
 
     public static void flushReports() {
-	report.flush();
+        extentReports.flush();
     }
 
 }
