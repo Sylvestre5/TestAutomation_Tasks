@@ -111,7 +111,7 @@ public class Google_Test {
         String searchKeyword = excelFileManager.get().getCellData("query", 2);
         String indexInPage = excelFileManager.get().getCellData("indexInPage", 2);
         String expectedResult_searchResult = excelFileManager.get().getCellData("expectedResult_searchResult", 2);
-
+        //driver.getDriver(); get selenium webdriver native
         String actualResult_currentUrl =
                 new Google_Page(driver.get()).navigateTo_HomePage()
                         .searchByTextAndIndexList(searchKeyword)
