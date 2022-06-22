@@ -146,6 +146,7 @@ public class Google_Test {
         System.out.println("Search results --> " + getSearchResults);
         Assert.assertNotEquals(getSearchResults, "");
     }
+
     @Test(enabled = false)
     public void searchBy_text_and_index_list() {
         String searchKeyword = "Selenium";
@@ -167,7 +168,7 @@ public class Google_Test {
 
     }
 
-    @AfterMethod(enabled = false)
+    @AfterMethod()
     public void closeBrowser() {
         BrowserActions.closeAllOpenedBrowserWindows(driver.get());
     }

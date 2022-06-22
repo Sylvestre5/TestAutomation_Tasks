@@ -1,19 +1,12 @@
 package com.tasks.gui.pages;
-
-
-import com.assertthat.selenium_shutterbug.core.Shutterbug;
 import io.qameta.allure.Step;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.*;
-import org.openqa.selenium.io.FileHandler;
-import ru.yandex.qatools.ashot.comparison.ImageDiff;
-import ru.yandex.qatools.ashot.comparison.ImageDiffer;
+
 import utilities.actions.ElementActions;
 import utilities.actions.Helper;
 import utilities.browser.BrowserActions;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -82,34 +75,41 @@ public class Google_Page {
      */
     @Step("Check logo is displayed?")
     public static boolean isGoogleLogoDisplayed(String logoName) throws IOException {
-        String imgPath = System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/getImage/actualImage/" + "googleTest.png";
-        Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save(imgPath);
-        takeWebElement_screenshot(logoName);
+
+
         return driver.findElement(googleLogo_image).isDisplayed();
     }
+//    @Step("Check logo is displayed?")
+//    public static boolean isGoogleLogoDisplayed(String logoName) throws IOException {
+//        String imgPath = System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/getImage/actualImage/" + "googleTest.png";
+//        Shutterbug.shootElement(driver, driver.findElement(googleLogo_image)).save(imgPath);
+//        takeWebElement_screenshot(logoName);
+//        return driver.findElement(googleLogo_image).isDisplayed();
+//    }
 
 
-    public static void takeWebElement_screenshot(String screenshotName) throws IOException {
-        WebElement element = driver.findElement(googleLogo_image);
-        File source = element.getScreenshotAs(OutputType.FILE);
-        File destination = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/actualImage/" + screenshotName + ".png");
-        FileHandler.copy(source, destination);
-
-        File image = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/expectedImage/expectedGoogleLogo.png");
-
-        BufferedImage expectedImage = ImageIO.read(image);
-        BufferedImage actualImage = ImageIO.read(destination);
-        System.out.println("image " + " [ " + expectedImage + " ] ");
-        System.out.println("actualImage" + " [ " + actualImage + " ] ");
-        ImageDiffer imageDiffer = new ImageDiffer();
-
-        ImageDiff diff = imageDiffer.makeDiff(expectedImage, actualImage);
-        if (!diff.hasDiff()) {
-            System.out.println("Images are same");
-        } else {
-            System.out.println("Images are different");
-        }
-    }
+//
+//    public static void takeWebElement_screenshot(String screenshotName) throws IOException {
+//        WebElement element = driver.findElement(googleLogo_image);
+//        File source = element.getScreenshotAs(OutputType.FILE);
+//        File destination = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/actualImage/" + screenshotName + ".png");
+//        FileHandler.copy(source, destination);
+//
+//        File image = new File(System.getProperty("user.dir") + "/src/test/resources/testData/google_testData/expectedImage/expectedGoogleLogo.png");
+//
+//        BufferedImage expectedImage = ImageIO.read(image);
+//        BufferedImage actualImage = ImageIO.read(destination);
+//        System.out.println("image " + " [ " + expectedImage + " ] ");
+//        System.out.println("actualImage" + " [ " + actualImage + " ] ");
+//        ImageDiffer imageDiffer = new ImageDiffer();
+//
+//        ImageDiff diff = imageDiffer.makeDiff(expectedImage, actualImage);
+//        if (!diff.hasDiff()) {
+//            System.out.println("Images are same");
+//        } else {
+//            System.out.println("Images are different");
+//        }
+//    }
 
     /**
      * search By text

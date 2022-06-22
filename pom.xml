@@ -164,31 +164,33 @@
             <version>1.18.24</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.assertthat</groupId>
-            <artifactId>selenium-shutterbug</artifactId>
-            <version>1.6</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.seleniumhq.selenium</groupId>
-                    <artifactId>selenium-java</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>io.github.bonigarcia</groupId>
-                    <artifactId>webdrivermanager</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <!-- https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot -->
-        <dependency>
-            <groupId>ru.yandex.qatools.ashot</groupId>
-            <artifactId>ashot</artifactId>
-            <version>1.5.4</version>
-        </dependency>
+        <!-- Image Comparison -->
+        <!-- https://mvnrepository.com/artifact/com.assertthat/selenium-shutterbug -->
+<!--        <dependency>-->
+<!--            <groupId>com.assertthat</groupId>-->
+<!--            <artifactId>selenium-shutterbug</artifactId>-->
+<!--            <version>1.6</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.seleniumhq.selenium</groupId>-->
+<!--                    <artifactId>selenium-java</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>org.seleniumhq.selenium</groupId>-->
+<!--                    <artifactId>selenium-java</artifactId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <groupId>io.github.bonigarcia</groupId>-->
+<!--                    <artifactId>webdrivermanager</artifactId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
+<!--         https://mvnrepository.com/artifact/ru.yandex.qatools.ashot/ashot-->
+<!--        <dependency>-->
+<!--            <groupId>ru.yandex.qatools.ashot</groupId>-->
+<!--            <artifactId>ashot</artifactId>-->
+<!--            <version>1.5.4</version>-->
+<!--        </dependency>-->
 
     </dependencies>
 
