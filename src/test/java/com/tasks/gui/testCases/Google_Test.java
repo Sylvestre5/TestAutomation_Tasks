@@ -19,7 +19,7 @@ import utilities.dataDriven.JSONFileManager;
 import java.io.File;
 import java.io.IOException;
 
-public class Google_Test {
+public class Google_Test  {
 
     private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private final ThreadLocal<JSONFileManager> jsonFileManager = new ThreadLocal<>();
