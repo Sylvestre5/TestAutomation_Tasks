@@ -8,7 +8,7 @@
     <name>Test Automation - Tasks</name>
 
     <properties>
-        <selenium.version>4.2.1</selenium.version>
+        <selenium.version>4.7.0</selenium.version>
         <webdrivermanager.version>5.2.0</webdrivermanager.version>
         <testng.version>7.6.0</testng.version>
 
