@@ -3,7 +3,7 @@
 <suite name="All Test Suite">
     <test name="Test Automation - Tasks">
         <classes>
-            <class name="com.tasks.gui.testCases.Google_Test">
+            <class name="tasks.tests.Google_Test">
                 <methods>
                     <include name="task_004_search_getFirstResult"/>
                 </methods>
