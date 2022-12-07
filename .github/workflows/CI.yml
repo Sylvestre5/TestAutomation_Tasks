@@ -11,7 +11,7 @@ on:
 jobs:
   build:
     name: Test on Ubuntu
-    runs-on: [ubuntu-latest]
+    runs-on: ubuntu-latest
 
     steps:
     - name: Checkout Code
@@ -29,7 +29,7 @@ jobs:
     - name: Check running containers
       run: docker ps
 
-    - name: Run tests
+    - name: Run tests - Chrome Headless
       continue-on-error: true
       run: mvn test -Dtest="tasks.tests.**" -Dexecution.type="Remote"
 
