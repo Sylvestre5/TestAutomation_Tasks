@@ -1,4 +1,4 @@
-package com.tasks.gui.testCases;
+package tasks.tests;
 
 import com.tasks.gui.pages.W3school_Page;
 import org.openqa.selenium.WebDriver;

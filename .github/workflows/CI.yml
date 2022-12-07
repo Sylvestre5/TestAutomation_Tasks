@@ -12,9 +12,11 @@ jobs:
   build:
     name: Test on Ubuntu
     runs-on: [ubuntu-latest]
-    
+
     steps:
+    - name: Checkout Code
     - uses: actions/checkout@v3
+
     - name: Setup JDK 17
       uses: actions/setup-java@v3
       with:
@@ -29,7 +31,7 @@ jobs:
 
     - name: Run tests
       continue-on-error: true
-      run: mvn clean test
+      run: mvn test -Dtest="tasks.tests.**" -Dexecution.type="Remote"
 
     - name: Generate Allure report
       run: mvn allure:report

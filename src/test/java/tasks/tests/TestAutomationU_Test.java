@@ -1,4 +1,4 @@
-package com.tasks.gui.testCases;
+package tasks.tests;
 
 
 import com.tasks.gui.pages.TestAutomationU_Page;
